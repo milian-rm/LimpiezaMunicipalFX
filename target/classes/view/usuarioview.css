@@ -1,0 +1,16 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+.fondo{
+    
+    -fx-background-color: #F4FFE8;
+       
+}
+
+.encabezado{
+    -fx-background-color: #98BD64;
+}

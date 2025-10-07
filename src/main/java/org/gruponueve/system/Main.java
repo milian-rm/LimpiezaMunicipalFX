@@ -6,6 +6,9 @@ package org.gruponueve.system;
 
 import java.util.logging.Logger;
 
+import org.gruponueve.controller.MunicipalidadController;
+import org.gruponueve.controller.UsuarioController;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,8 +24,6 @@ public class Main extends Application{
     private static int ANCHO = 1500;
     private static int ALTO = 800;
     private static String URL = "/view/";
-    private Logger logger;
-
     public static void main(String[] args) {
         System.out.println("Prueba funcionamiento");
         launch(args);
@@ -31,12 +32,13 @@ public class Main extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        FXMLLoader cargador = new FXMLLoader(getClass().getResource(
+        usuario();
+        /*FXMLLoader cargador = new FXMLLoader(getClass().getResource(
                 "/view/MunicipalidadView.fxml"));
         Parent raiz = cargador.load();
         Scene escena = new Scene(raiz);
         stage.setScene(escena);
-        stage.setMaximized(true);
+        stage.setMaximized(true);*/
         stage.show();
     }
 
@@ -53,14 +55,34 @@ public class Main extends Application{
             stage.setTitle("ME ATRAPASTE ME TUVISTE ENTRE TUS BRAZOS, ME ENSEÑASTE LO "+
                             "INHUMANO Y LO INFELIZ QUE PUEDO SEEEER");
         } catch (Exception e) {
-            logger.info("ERROR AL CAMBIAR " + e.getMessage());
+            System.out.println("ERROR AL CAMBIAR " + e.getMessage());
             e.printStackTrace();
         }
         return cargardorFXML;
     }
     
     public void menuPrincipal(){
-        //ControllerMenuPrincipal cmp = cambiarEscena("VistaMenuPrincipal.fxml",ANCHO, ALTO).getController();
+        //ControllerMenuPrincipal cmp = cambioEscena("VistaMenuPrincipal.fxml").getController();
         //cmp.setPrincipal(this);
+    }
+
+    public void municipalidad(){
+        try{
+            MunicipalidadController mc = (MunicipalidadController) cambioEscena("MunicipalidadView.fxml").getController();
+            mc.setPrincipal(this);
+        } catch (Exception e) {
+            System.out.println("Error al cargar la vista: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void usuario(){
+        try{
+            UsuarioController uc = (UsuarioController) cambioEscena("UsuarioView.fxml").getController();
+            uc.setPrincipal(this);
+        } catch (Exception e) {
+            System.out.println("Error al cargar la vista: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

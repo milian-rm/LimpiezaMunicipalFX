@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+ */
 package org.gruponueve.controller;
 
 import java.net.URL;
@@ -7,9 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import org.gruponueve.model.Municipalidad;
+import org.gruponueve.database.Conexion;
+import org.gruponueve.model.Usuario;
 import org.gruponueve.system.Main;
-
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,13 +24,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.gruponueve.database.Conexion;
 
-public class MunicipalidadController implements Initializable{
+public class UsuarioController implements Initializable {
 
     private Main principal;
-    private ObservableList<Municipalidad> listaMunicipalidad;
-    private Municipalidad modeloMunicipalidad;
+    private ObservableList<Usuario> listaUsuario;
+    private Usuario modeloUsuario;
 
     private enum EstadoFormulario {
         AGREGAR, EDITAR, ELIMINAR, NINGUNO
@@ -34,18 +37,18 @@ public class MunicipalidadController implements Initializable{
     EstadoFormulario estadoActual = EstadoFormulario.NINGUNO;
 
     @FXML
-    private TableView<Municipalidad> tablaMunicipalidades;
+    private TableView<Usuario> tablaUsuarios;
 
     @FXML
-    private TableColumn colID, colMuni;
+    private TableColumn colID, colCorreo, colContra;
 
     @FXML
-    private TextField txtBuscar, txtId, txtMunicipalidad;
+    private TextField txtBuscar, txtId, txtCorreo, txtContra;
 
     @FXML
     private Button btnAnterior, btnSiguiente, btnNuevo,
-            btnEliminar, btnEditar
-            , btnVolver, btnBuscar;
+            btnEliminar, btnEditar, 
+            btnVolver, btnBuscar;
 
     public void setPrincipal(Main principal) {
         this.principal = principal;
@@ -58,64 +61,69 @@ public class MunicipalidadController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
         configurarColumna();
         cargarTabla();
-        tablaMunicipalidades.setOnMouseClicked(event -> cargarEnTextoField());
+        tablaUsuarios.setOnMouseClicked(event -> cargarEnTextoField());
         txtBuscar.setOnAction(eh -> BuscarTabla());
     }
 
 
     public void configurarColumna() {
-        colID.setCellValueFactory(new PropertyValueFactory<Municipalidad, Integer>("idMunicipalidad"));
-        colMuni.setCellValueFactory(new PropertyValueFactory<Municipalidad, String>("Municipalidad"));    }
+        colID.setCellValueFactory(new PropertyValueFactory<Usuario, Integer>("idUsuario"));
+        colCorreo.setCellValueFactory(new PropertyValueFactory<Usuario, String>("correo"));
+        colContra.setCellValueFactory(new PropertyValueFactory<Usuario, String>("contrasenia"));
+    }
 
     public void cargarTabla() {
-        listaMunicipalidad = FXCollections.observableList(ListarTabla());
-        tablaMunicipalidades.setItems(listaMunicipalidad);
-        tablaMunicipalidades.getSelectionModel().selectFirst();
-        if (tablaMunicipalidades.getSelectionModel().getSelectedItem() != null) {
+        listaUsuario = FXCollections.observableList(ListarTabla());
+        tablaUsuarios.setItems(listaUsuario);
+        tablaUsuarios.getSelectionModel().selectFirst();
+        if (tablaUsuarios.getSelectionModel().getSelectedItem() != null) {
             cargarEnTextoField();
         }
     }
 
     public void cargarEnTextoField() {
-        Municipalidad muniSeleccionado = tablaMunicipalidades.getSelectionModel().getSelectedItem();
-        txtId.setText(String.valueOf(muniSeleccionado.getIdMunicipalidad()));
-        txtMunicipalidad.setText(muniSeleccionado.getMunicipalidad());
+        Usuario usuarioSeleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
+        txtId.setText(String.valueOf(usuarioSeleccionado.getIdUsuario()));
+        txtCorreo.setText(usuarioSeleccionado.getCorreo());
+        txtContra.setText(usuarioSeleccionado.getContrasenia());
     }
 
-    public ArrayList<Municipalidad> ListarTabla() {
-        ArrayList<Municipalidad> municipalidades = new ArrayList<>();
+    public ArrayList<Usuario> ListarTabla() {
+        ArrayList<Usuario> usuarios = new ArrayList<>();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                    .prepareCall("call sp_ListarMunicipalidades();");
+                    .prepareCall("call sp_ListarUsuarios();");
             ResultSet resultado = enunciado.executeQuery();
 
             while (resultado.next()) {
-                municipalidades.add(new Municipalidad(
-                        resultado.getInt("idMunicipalidad"),
-                        resultado.getString("Municipalidad")));
+                usuarios.add(new Usuario(
+                        resultado.getInt("idUsuario"),
+                        resultado.getString("correo"),
+                        resultado.getString("contrasenia")));
             }
         } catch (SQLException ex) {
             System.out.println("Error al cargar de MySQL: " + ex.getMessage());
             ex.printStackTrace();
         }
-        return municipalidades;
+        return usuarios;
     }
 
-    public Municipalidad obtenerModeloMunicipalidad() {
-        int idMuni = txtId.getText().isEmpty() ? 0 : Integer.parseInt(txtId.getText());
-        String muni = txtMunicipalidad.getText();
-
-        return new Municipalidad(idMuni, muni);
+    public Usuario obtenerModeloUsuario() {
+        int idUsuario = txtId.getText().isEmpty() ? 0 : Integer.parseInt(txtId.getText());
+        String correo = txtCorreo.getText();
+        String contrasenia = txtContra.getText();
+        return new Usuario(idUsuario, correo, contrasenia);
     }
 
 
-    public void agregarMunicipalidad() {
-        modeloMunicipalidad = obtenerModeloMunicipalidad();
-        System.out.println("Agregando Municipalidad: " + modeloMunicipalidad);
+    public void agregarUsuario() {
+        modeloUsuario = obtenerModeloUsuario();
+        System.out.println("Agregando Usuario: " + modeloUsuario);
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                    .prepareCall("call sp_AgregarMunicipalidad(?);");
-            enunciado.setString(1, modeloMunicipalidad.getMunicipalidad());
+                    .prepareCall("call sp_AgregarUsuario(?,?);");
+            enunciado.setString(1, modeloUsuario.getCorreo());
+            enunciado.setString(2, modeloUsuario.getContrasenia());
             enunciado.executeQuery();
             cargarTabla();
         } catch (SQLException e) {
@@ -124,13 +132,14 @@ public class MunicipalidadController implements Initializable{
         }
     }
 
-    public void actualizarMunicipalidad() {
-        modeloMunicipalidad = obtenerModeloMunicipalidad();
+    public void actualizarUsuario() {
+        modeloUsuario = obtenerModeloUsuario();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                    .prepareCall("call sp_ActualizarMunicipalidad(?,?);");
-            enunciado.setInt(1, modeloMunicipalidad.getIdMunicipalidad());
-            enunciado.setString(2, modeloMunicipalidad.getMunicipalidad());
+                    .prepareCall("call sp_ActualizarUsuario(?,?,?);");
+            enunciado.setInt(1, modeloUsuario.getIdUsuario());
+            enunciado.setString(2, modeloUsuario.getCorreo());
+            enunciado.setString(3, modeloUsuario.getContrasenia());
             enunciado.executeQuery();
             cargarTabla();
         } catch (Exception e) {
@@ -139,12 +148,12 @@ public class MunicipalidadController implements Initializable{
         }
     }
 
-    public void eliminarMunicipalidad() {
-        modeloMunicipalidad = obtenerModeloMunicipalidad();
+    public void eliminarUsuario() {
+        modeloUsuario = obtenerModeloUsuario();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                    .prepareCall("call sp_EliminarMunicipalidad(?);");
-            enunciado.setInt(1, modeloMunicipalidad.getIdMunicipalidad());
+                    .prepareCall("call sp_EliminarUsuario(?);");
+            enunciado.setInt(1, modeloUsuario.getIdUsuario());
             enunciado.executeQuery();
             cargarTabla();
         } catch (Exception e) {
@@ -154,15 +163,17 @@ public class MunicipalidadController implements Initializable{
 
     public void limpiarFormulario() {
         txtId.clear();
-        txtMunicipalidad.clear();
+        txtCorreo.clear();
+        txtContra.clear();
     }
 
     public void estadoFormulario(EstadoFormulario est) {
         estadoActual = est;
         boolean activo = (est == EstadoFormulario.AGREGAR || est == EstadoFormulario.EDITAR);
 
-        txtMunicipalidad.setDisable(!activo);
-        tablaMunicipalidades.setDisable(activo);
+        txtCorreo.setDisable(!activo);
+        txtContra.setDisable(!activo);
+        tablaUsuarios.setDisable(activo);
         btnBuscar.setDisable(activo);
         txtBuscar.setDisable(activo);
 
@@ -176,52 +187,48 @@ public class MunicipalidadController implements Initializable{
 
     @FXML
     private void btnAnteriorAction() {
-        int indice = tablaMunicipalidades.getSelectionModel().getSelectedIndex();
+        int indice = tablaUsuarios.getSelectionModel().getSelectedIndex();
         if (indice > 0) {
-            tablaMunicipalidades.getSelectionModel().select(indice - 1);
+            tablaUsuarios.getSelectionModel().select(indice - 1);
             cargarEnTextoField();
         }
     }
 
     @FXML
     private void btnSiguienteAction() {
-        int indice = tablaMunicipalidades.getSelectionModel().getSelectedIndex();
-        if (indice < listaMunicipalidad.size() - 1) {
-            tablaMunicipalidades.getSelectionModel().select(indice + 1);
+        int indice = tablaUsuarios.getSelectionModel().getSelectedIndex();
+        if (indice < listaUsuario.size() - 1) {
+            tablaUsuarios.getSelectionModel().select(indice + 1);
             cargarEnTextoField();
         }
     }
 
     @FXML
-    private void agregarPersona(){
+    private void nuevoUsuario(){
         switch (estadoActual) {
             case NINGUNO:
                 limpiarFormulario();
-                System.out.println("Voy a crear un registro para personas");
                 estadoFormulario(EstadoFormulario.AGREGAR);
                 break;
             case AGREGAR:
-                agregarMunicipalidad();
-                System.out.println("Voy a guardar los datos ingresados");
+                agregarUsuario();
                 estadoFormulario(EstadoFormulario.NINGUNO);
                 break;
             case EDITAR:
-                actualizarMunicipalidad();
-                System.out.println("Voy a guardar edición indicada");
+                actualizarUsuario();
                 estadoFormulario(EstadoFormulario.NINGUNO);
                 break;
         }
     }
     
     @FXML
-    private void editarPersona(){
+    private void editarUsuario(){
         estadoFormulario(EstadoFormulario.EDITAR);
     }
     @FXML
     private void cancelarEliminar(){
         if(estadoActual == EstadoFormulario.NINGUNO){
-            System.out.println("Voy a eliminar el registro");
-            eliminarMunicipalidad();
+            eliminarUsuario();
         }else{
             estadoFormulario(EstadoFormulario.NINGUNO);
         }
@@ -231,16 +238,16 @@ public class MunicipalidadController implements Initializable{
     @FXML
     private void BuscarTabla() {
         String texto = txtBuscar.getText().toLowerCase();
-        ArrayList<Municipalidad> resultadoBusqueda = new ArrayList<>();
-        for (Municipalidad muni : listaMunicipalidad) {
-            if (String.valueOf(muni.getMunicipalidad()).contains(texto) ||
-                muni.getMunicipalidad().toLowerCase().contains(texto)) {
-                resultadoBusqueda.add(muni);
+        ArrayList<Usuario> resultadoBusqueda = new ArrayList<>();
+        for (Usuario usu : listaUsuario) {
+            if (String.valueOf(usu.getCorreo()).contains(texto) ||
+                usu.getCorreo().toLowerCase().contains(texto)) {
+                resultadoBusqueda.add(usu);
             }
         }
-        tablaMunicipalidades.setItems(FXCollections.observableList(resultadoBusqueda));
+        tablaUsuarios.setItems(FXCollections.observableList(resultadoBusqueda));
         if (!resultadoBusqueda.isEmpty()) {
-            tablaMunicipalidades.getSelectionModel().selectFirst();
+            tablaUsuarios.getSelectionModel().selectFirst();
         }
-    } 
+    }
 }
