@@ -28,6 +28,17 @@ public class Persona {
         this.rol = rol;
     }
 
+    public Persona(int idPersona, String nombres, String apellidos, String telefono, String correo, Double salario, Rol rol) {
+        this.idPersona = idPersona;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.telefono = telefono;
+        this.correo = correo;
+        this.salario = salario;
+        this.rol = rol;
+    }
+    
+
     public int getIdPersona() {
         return idPersona;
     }
