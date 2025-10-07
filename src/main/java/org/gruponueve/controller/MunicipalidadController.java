@@ -44,8 +44,8 @@ public class MunicipalidadController implements Initializable{
 
     @FXML
     private Button btnAnterior, btnSiguiente, btnNuevo,
-            btnEliminar, btnEditar, btnCancelar,
-            btnGuardar, btnVolver, btnBuscar;
+            btnEliminar, btnEditar
+            , btnVolver, btnBuscar;
 
     public void setPrincipal(Main principal) {
         this.principal = principal;
@@ -162,19 +162,16 @@ public class MunicipalidadController implements Initializable{
         boolean activo = (est == EstadoFormulario.AGREGAR || est == EstadoFormulario.EDITAR);
 
         txtMunicipalidad.setDisable(!activo);
-        btnGuardar.setDisable(!activo);
-        btnCancelar.setDisable(!activo);
-
         tablaMunicipalidades.setDisable(activo);
         btnBuscar.setDisable(activo);
         txtBuscar.setDisable(activo);
 
-        btnVolver.setDisable(activo);
-        btnEditar.setDisable(activo);
+        //btnVolver.setDisable(activo);
         btnAnterior.setDisable(activo);
         btnSiguiente.setDisable(activo);
-        btnNuevo.setDisable(activo);
-        btnEliminar.setDisable(activo);
+        btnEditar.setDisable(activo);
+        btnNuevo.setText(activo ? "Guardar": "Agregar");
+        btnEliminar.setText(activo ? "Cancelar":"Eliminar");
     }
 
     @FXML
@@ -196,40 +193,38 @@ public class MunicipalidadController implements Initializable{
     }
 
     @FXML
-    private void btnNuevoAction() {
-        limpiarFormulario();
-        estadoActual = EstadoFormulario.AGREGAR;
-        estadoFormulario(EstadoFormulario.AGREGAR);
+    private void agregarPersona(){
+        switch (estadoActual) {
+            case NINGUNO:
+                limpiarFormulario();
+                System.out.println("Voy a crear un registro para personas");
+                estadoFormulario(EstadoFormulario.AGREGAR);
+                break;
+            case AGREGAR:
+                agregarMunicipalidad();
+                System.out.println("Voy a guardar los datos ingresados");
+                estadoFormulario(EstadoFormulario.NINGUNO);
+                break;
+            case EDITAR:
+                actualizarMunicipalidad();
+                System.out.println("Voy a guardar edición indicada");
+                estadoFormulario(EstadoFormulario.NINGUNO);
+                break;
+        }
     }
-
+    
     @FXML
-    private void btnEditarAction() {
+    private void editarPersona(){
         estadoFormulario(EstadoFormulario.EDITAR);
     }
-
     @FXML
-    private void btnEliminarAction() {
-        eliminarMunicipalidad();
-        cargarTabla();
-    }
-
-    @FXML
-    private void btnCancelarAction() {
-        if (tablaMunicipalidades.getSelectionModel().getSelectedItem() != null) {
-            cargarEnTextoField();
+    private void cancelarEliminar(){
+        if(estadoActual == EstadoFormulario.NINGUNO){
+            System.out.println("Voy a eliminar el registro");
+            eliminarMunicipalidad();
+        }else{
+            estadoFormulario(EstadoFormulario.NINGUNO);
         }
-        estadoFormulario(EstadoFormulario.NINGUNO);
-    }
-
-    @FXML
-    private void btnGuardarAction() {
-        System.out.println("Guardar botón presionado. Estado actual: " + estadoActual);
-        if (estadoActual == EstadoFormulario.AGREGAR) {
-            agregarMunicipalidad();
-        } else if (estadoActual == EstadoFormulario.EDITAR) {
-            actualizarMunicipalidad();
-        }
-        estadoFormulario(EstadoFormulario.NINGUNO);
     }
 
     
@@ -238,7 +233,7 @@ public class MunicipalidadController implements Initializable{
         String texto = txtBuscar.getText().toLowerCase();
         ArrayList<Municipalidad> resultadoBusqueda = new ArrayList<>();
         for (Municipalidad muni : listaMunicipalidad) {
-            if (String.valueOf(muni.getIdMunicipalidad()).contains(texto) ||
+            if (String.valueOf(muni.getMunicipalidad()).contains(texto) ||
                 muni.getMunicipalidad().toLowerCase().contains(texto)) {
                 resultadoBusqueda.add(muni);
             }

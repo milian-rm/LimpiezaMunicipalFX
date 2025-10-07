@@ -31,12 +31,12 @@ public class Main extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        /*FXMLLoader cargador = new FXMLLoader(getClass().getResource(
-                "/view/InicioView.fxml"));
+        FXMLLoader cargador = new FXMLLoader(getClass().getResource(
+                "/view/MunicipalidadView.fxml"));
         Parent raiz = cargador.load();
         Scene escena = new Scene(raiz);
         stage.setScene(escena);
-        stage.setMaximized(true);*/
+        stage.setMaximized(true);
         stage.show();
     }
 
