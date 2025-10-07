@@ -1,15 +1,13 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package org.gruponueve.controller;
-
+/*
 import java.net.URL;
 import java.sql.CallableStatement;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -25,24 +23,26 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.gruponueve.database.Conexion;
-import org.gruponueve.model.Persona;
+import org.gruponueve.model.Reporte;
 import org.gruponueve.model.Rol;
 import org.gruponueve.system.Main;
 
 /**
+ * FXML Controller class
  *
- * @author Roberto
+ * @author informatica
  */
-public class PersonaController implements Initializable{
+/*
+public class ReporteController implements Initializable {
     
     protected Main principal;
-    private ObservableList<Persona> listaPersonas;
-    private Persona modeloPersona;
+    private ObservableList<Reporte> listaReportes;
+    private Reporte modeloReporte;
     private enum EstadoFormulario {AGREGAR, EDITAR, ELIMINAR, NINGUNA}
     EstadoFormulario estadoActual = EstadoFormulario.NINGUNA;
 
     @FXML
-    protected TableView<Persona> tablaPersona;
+    protected TableView<Reporte> tablaReporte;
     
     @FXML
     protected TableColumn colId, colNombres, colApellidos, colTelefono,
@@ -56,7 +56,7 @@ public class PersonaController implements Initializable{
     private Spinner<Double> spSalario;
     
     @FXML
-    private RadioButton rbPersonal, rbSupervisor, rbAlcaldeAux, 
+    private RadioButton rbReportel, rbSupervisor, rbAlcaldeAux, 
             rbAlcaldeMun;
     
     @FXML
@@ -68,7 +68,7 @@ public class PersonaController implements Initializable{
         configurarSpinner();
         cargarTablaModelos();
         // expresiones lambda el metodo 
-        tablaPersona.setOnMouseClicked(eventHandler -> cargarPersonaFormulario());
+        tablaReporte.setOnMouseClicked(eventHandler -> cargarReporteFormulario());
     }
     
     public void setPrincipal(Main principal) {
@@ -84,12 +84,12 @@ public class PersonaController implements Initializable{
     }
 
     private void configurarColumnas(){
-        colId.setCellValueFactory(new PropertyValueFactory<Persona, Integer>("idPersona"));
-        colNombres.setCellValueFactory(new PropertyValueFactory<Persona, String>("nombres"));
-        colApellidos.setCellValueFactory(new PropertyValueFactory<Persona, String>("apellidos"));
-        colTelefono.setCellValueFactory(new PropertyValueFactory<Persona, String>("telefono"));
-        colSalario.setCellValueFactory(new PropertyValueFactory<Persona, Double>("salario"));
-        colRol.setCellValueFactory(new PropertyValueFactory<Persona, Rol>("rol"));
+        colId.setCellValueFactory(new PropertyValueFactory<Reporte, Integer>("idReporte"));
+        colNombres.setCellValueFactory(new PropertyValueFactory<Reporte, String>("nombres"));
+        colApellidos.setCellValueFactory(new PropertyValueFactory<Reporte, String>("apellidos"));
+        colTelefono.setCellValueFactory(new PropertyValueFactory<Reporte, String>("telefono"));
+        colSalario.setCellValueFactory(new PropertyValueFactory<Reporte, Double>("salario"));
+        colRol.setCellValueFactory(new PropertyValueFactory<Reporte, Rol>("rol"));
     }
     
     private void configurarSpinner(){
@@ -98,16 +98,16 @@ public class PersonaController implements Initializable{
         spSalario.setValueFactory(valor);
     }
     
-    private ArrayList<Persona> listarPersonas(){
-        ArrayList<Persona> personas = new ArrayList<>();
+    private ArrayList<Reporte> listarReportes(){
+        ArrayList<Reporte> reportes = new ArrayList<>();
         try {
 //            Connection conexion = Conexion.getInstancia().getConexion();
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                    .prepareCall("call sp_ListarPersona();");
+                    .prepareCall("call sp_ListarReporte();");
             ResultSet resultado = enunciado.executeQuery();
             while(resultado.next()){
-                personas.add(new Persona(
-                            resultado.getInt("idPersona"),
+                reportes.add(new Reporte(
+                            resultado.getInt("idReporte"),
                             resultado.getString("nombres"),
                             resultado.getString("apellidos"),
                             resultado.getString("telefono"),
@@ -115,45 +115,45 @@ public class PersonaController implements Initializable{
                             Rol.valueOf(resultado.getString("rol").toUpperCase())));
                         }
         } catch (SQLException ex) {
-            System.out.println("Error al cargar de MySQL las Personas");
+            System.out.println("Error al cargar de MySQL las Reportes");
             ex.printStackTrace();
         }
-       return personas;
+       return reportes;
     }
-    private void cargarPersonaFormulario(){
-        Persona persona = tablaPersona.getSelectionModel().getSelectedItem();
-        if (persona != null) {
-            txtId.setText(String.valueOf(persona.getIdPersona()));
-            txtNombres.setText(persona.getNombres());
-            txtApellidos.setText(persona.getApellidos());
-            txtTelefono.setText(persona.getTelefono());
+    private void cargarReporteFormulario(){
+        Reporte reporte = tablaReporte.getSelectionModel().getSelectedItem();
+        if (reporte != null) {
+            txtId.setText(String.valueOf(reporte.getIdReporte()));
+            txtNombres.setText(reporte.getNombres());
+            txtApellidos.setText(reporte.getApellidos());
+            txtTelefono.setText(reporte.getTelefono());
         }
-        spSalario.getValueFactory().setValue(persona.getSalario());
+        spSalario.getValueFactory().setValue(reporte.getSalario());
         
-        if (String.valueOf(persona.getRol()).equalsIgnoreCase("PERSONAL")) {
-            rbPersonal.setSelected(true);
-        }else if(String.valueOf(persona.getRol()).equalsIgnoreCase("SUPERVISOR")){
+        if (String.valueOf(reporte.getRol()).equalsIgnoreCase("PERSONAL")) {
+            rbReportel.setSelected(true);
+        }else if(String.valueOf(reporte.getRol()).equalsIgnoreCase("SUPERVISOR")){
             rbSupervisor.setSelected(true);
-        }else if(String.valueOf(persona.getRol()).equalsIgnoreCase("ALCALDE_AUXILIAR")){
+        }else if(String.valueOf(reporte.getRol()).equalsIgnoreCase("ALCALDE_AUXILIAR")){
             rbAlcaldeAux.setSelected(true);
-        }else if(String.valueOf(persona.getRol()).equalsIgnoreCase("ALCALDE_MUNICIPAL")){
+        }else if(String.valueOf(reporte.getRol()).equalsIgnoreCase("ALCALDE_MUNICIPAL")){
             rbAlcaldeMun.setSelected(true);
         }
     }
     
    
     public void cargarTablaModelos(){
-        listaPersonas = FXCollections.observableArrayList(listarPersonas());
-        tablaPersona.setItems(listaPersonas);
-        tablaPersona.getSelectionModel().selectFirst();
-        cargarPersonaFormulario();
+        listaReportes = FXCollections.observableArrayList(listarReportes());
+        tablaReporte.setItems(listaReportes);
+        tablaReporte.getSelectionModel().selectFirst();
+        cargarReporteFormulario();
     }
     
-    private Persona cargarModeloPersona(){
-        int codigoPersona = txtId.getText().isEmpty() ? 0 : Integer.parseInt(txtId.getText());
+    private Reporte cargarModeloReporte(){
+        int codigoReporte = txtId.getText().isEmpty() ? 0 : Integer.parseInt(txtId.getText());
         
         String rol = "";
-        if (rbPersonal.isSelected()) {
+        if (rbReportel.isSelected()) {
             rol = "PERSONAL";
         } else if (rbSupervisor.isSelected()) {
             rol = "SUPERVISOR";
@@ -162,8 +162,8 @@ public class PersonaController implements Initializable{
         } else if (rbAlcaldeMun.isSelected()) {
             rol = "ALCALDE_MUNICIPAL";
         }
-        return new Persona(
-                codigoPersona, 
+        return new Reporte(
+                codigoReporte, 
                 txtNombres.getText(), 
                 txtApellidos.getText(), 
                 txtTelefono.getText(), 
@@ -174,55 +174,55 @@ public class PersonaController implements Initializable{
     
     
     public void agregarModelo(){
-        modeloPersona = cargarModeloPersona();
+        modeloReporte = cargarModeloReporte();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion().
-                    prepareCall("call sp_AgregarPersona(?,?,?,?);");
-            enunciado.setString(1, modeloPersona.getNombres());
-            enunciado.setString(2, modeloPersona.getApellidos());
-            enunciado.setString(3, modeloPersona.getTelefono());
-            enunciado.setDouble(4, modeloPersona.getSalario());
+                    prepareCall("call sp_AgregarReporte(?,?,?,?);");
+            enunciado.setString(1, modeloReporte.getNombres());
+            enunciado.setString(2, modeloReporte.getApellidos());
+            enunciado.setString(3, modeloReporte.getTelefono());
+            enunciado.setDouble(4, modeloReporte.getSalario());
             int registrosAgregados = enunciado.executeUpdate();
             if(registrosAgregados > 0){
-                System.out.println("Persona agregada");
+                System.out.println("Reporte agregada");
                 cargarTablaModelos();
             }
         } catch (SQLException e) {
-            System.out.println("Error al insertar una Persona");
+            System.out.println("Error al insertar una Reporte");
             e.printStackTrace();
         }
         
     }
     
     public void actualizarModelo(){
-        modeloPersona = cargarModeloPersona();
+        modeloReporte = cargarModeloReporte();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                    .prepareCall("call sp_ActualizarPersona(?,?,?,?,?,?);");
-            enunciado.setInt(1, modeloPersona.getIdPersona());
-            enunciado.setString(2, modeloPersona.getNombres());
-            enunciado.setString(3, modeloPersona.getApellidos());
-            enunciado.setString(4, modeloPersona.getTelefono());
-            enunciado.setDouble(5, modeloPersona.getSalario());
-            enunciado.setString(6, String.valueOf(modeloPersona.getRol()));
+                    .prepareCall("call sp_ActualizarReporte(?,?,?,?,?,?);");
+            enunciado.setInt(1, modeloReporte.getIdReporte());
+            enunciado.setString(2, modeloReporte.getNombres());
+            enunciado.setString(3, modeloReporte.getApellidos());
+            enunciado.setString(4, modeloReporte.getTelefono());
+            enunciado.setDouble(5, modeloReporte.getSalario());
+            enunciado.setString(6, String.valueOf(modeloReporte.getRol()));
             enunciado.execute();
             cargarTablaModelos();
         } catch (SQLException e) {
-            System.out.println("Error al editar una persona");
+            System.out.println("Error al editar una reporte");
             e.printStackTrace();
         }
         
     }
     public void eliminarModelo(){
-        modeloPersona = tablaPersona.getSelectionModel().getSelectedItem();
+        modeloReporte = tablaReporte.getSelectionModel().getSelectedItem();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                    .prepareCall("call sp_EliminarPersona(?);");
-            enunciado.setInt(1, modeloPersona.getIdPersona());
+                    .prepareCall("call sp_EliminarReporte(?);");
+            enunciado.setInt(1, modeloReporte.getIdReporte());
             enunciado.execute();
             cargarTablaModelos();
         } catch (SQLException e) {
-            System.out.println("Error al eliminar una Persona");
+            System.out.println("Error al eliminar una Reporte");
             e.printStackTrace();
         }
     }
@@ -242,7 +242,7 @@ public class PersonaController implements Initializable{
         txtTelefono.setDisable(!activo);
         spSalario.setDisable(!activo);
         
-        tablaPersona.setDisable(activo);
+        tablaReporte.setDisable(activo);
         btnBuscar.setDisable(activo);
         txtBuscar.setDisable(activo);
         
@@ -254,28 +254,28 @@ public class PersonaController implements Initializable{
     
     @FXML
     private void btnVolverAction(){
-      int indice = tablaPersona.getSelectionModel().getSelectedIndex();
+      int indice = tablaReporte.getSelectionModel().getSelectedIndex();
       if(indice > 0){
-          tablaPersona.getSelectionModel().select(indice-1);
+          tablaReporte.getSelectionModel().select(indice-1);
       }
-      cargarPersonaFormulario();
+      cargarReporteFormulario();
     }
     
     @FXML
     private void btnSiguienteAction(){
-      int indice = tablaPersona.getSelectionModel().getSelectedIndex();
-      if(indice < listaPersonas.size()-1){
-          tablaPersona.getSelectionModel().select(indice+1);
+      int indice = tablaReporte.getSelectionModel().getSelectedIndex();
+      if(indice < listaReportes.size()-1){
+          tablaReporte.getSelectionModel().select(indice+1);
       }
-      cargarPersonaFormulario();
+      cargarReporteFormulario();
     }
     
     @FXML
-    private void agregarPersona(){
+    private void agregarReporte(){
         switch (estadoActual) {
             case NINGUNA:
                 limpiarCampos();
-                System.out.println("Voy a crear un registro para personas");
+                System.out.println("Voy a crear un registro para reportes");
                 actualizarEstadoFormulario(EstadoFormulario.AGREGAR);
                 break;
             case AGREGAR:
@@ -292,7 +292,7 @@ public class PersonaController implements Initializable{
     }
     
     @FXML
-    private void editarPersona(){
+    private void editarReporte(){
         actualizarEstadoFormulario(EstadoFormulario.EDITAR);
     }
     @FXML
@@ -307,16 +307,17 @@ public class PersonaController implements Initializable{
     @FXML
     private void buscarPorNombre(){
         String nombre = txtBuscar.getText().toLowerCase();
-        ArrayList<Persona> resultadoBusqueda = new ArrayList<>();
-        for(Persona m:listaPersonas){
+        ArrayList<Reporte> resultadoBusqueda = new ArrayList<>();
+        for(Reporte m:listaReportes){
             if(m.getNombres().toLowerCase().contains(nombre)){
                 resultadoBusqueda.add(m);
             }
         }
-        tablaPersona.setItems(FXCollections.observableArrayList(resultadoBusqueda));
+        tablaReporte.setItems(FXCollections.observableArrayList(resultadoBusqueda));
         if(!resultadoBusqueda.isEmpty()){
-            tablaPersona.getSelectionModel().selectFirst();
+            tablaReporte.getSelectionModel().selectFirst();
         }
     }
     
 }
+*/

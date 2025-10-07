@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1500.0" styleClass="fondo" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1500.0" styleClass="fondo" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.gruponueve.controller.PersonaController">
    <stylesheets>
       <URL value="@municipalidadview.css" />
    </stylesheets>
@@ -31,7 +32,6 @@
                         <TableColumn fx:id="colNombres" prefWidth="159.0" text="Nombres" />
                         <TableColumn fx:id="colApellidos" prefWidth="204.33334350585938" text="Apellidos" />
                         <TableColumn fx:id="colTelefono" prefWidth="197.0" text="Teléfono" />
-                        <TableColumn fx:id="colCorreo" prefWidth="469.666748046875" text="Correo" />
                         <TableColumn fx:id="colSalario" prefWidth="469.666748046875" text="Salario" />
                         <TableColumn fx:id="colRol" prefWidth="469.666748046875" text="Rol" />
                      </columns>
@@ -63,10 +63,10 @@
                   <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <TextField fx:id="txtId" GridPane.columnIndex="2" />
-                  <TextField fx:id="txtNombres" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <TextField fx:id="txtApellidos" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <Spinner fx:id="spSalario" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtId" disable="true" GridPane.columnIndex="2" />
+                  <TextField fx:id="txtNombres" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtApellidos" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Spinner fx:id="spSalario" disable="true" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                   <GridPane GridPane.columnIndex="5" GridPane.rowIndex="2">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -75,14 +75,15 @@
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <RadioButton fx:id="rbUsuario" mnemonicParsing="false" text="Usuario" />
-                        <RadioButton fx:id="rbPersonal" mnemonicParsing="false" text="Personal" GridPane.rowIndex="1" />
-                        <RadioButton fx:id="rbSupervisor" mnemonicParsing="false" text="Supervisor" GridPane.rowIndex="2" />
-                        <RadioButton fx:id="rbAlcaldeAux" mnemonicParsing="false" prefHeight="17.0" prefWidth="115.0" text="Alcalde Auxiliar" GridPane.columnIndex="1" />
-                        <RadioButton fx:id="rbAlcaldeMun" mnemonicParsing="false" prefHeight="17.0" prefWidth="126.0" text="Alcalde Municipal" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <RadioButton fx:id="rbPersonal" disable="true" mnemonicParsing="false" text="Personal">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="rol" />
+                           </toggleGroup></RadioButton>
+                        <RadioButton fx:id="rbSupervisor" disable="true" mnemonicParsing="false" text="Supervisor" toggleGroup="$rol" GridPane.rowIndex="1" />
+                        <RadioButton fx:id="rbAlcaldeAux" disable="true" mnemonicParsing="false" prefHeight="17.0" prefWidth="115.0" text="Alcalde Auxiliar" toggleGroup="$rol" GridPane.columnIndex="1" />
+                        <RadioButton fx:id="rbAlcaldeMun" disable="true" mnemonicParsing="false" prefHeight="17.0" prefWidth="126.0" text="Alcalde Municipal" toggleGroup="$rol" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID:  " GridPane.columnIndex="1" />
@@ -90,13 +91,13 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Apellidos:  " GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Salario:  " GridPane.columnIndex="4" GridPane.rowIndex="1" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Rol:  " GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                  <Button fx:id="btnAnterior" mnemonicParsing="false" text="&lt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Button fx:id="btnSiguiente" mnemonicParsing="false" text="&gt;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Button fx:id="btnAgregar" mnemonicParsing="false" text="Agregar" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                  <Button fx:id="btnActualizar" mnemonicParsing="false" text="Actualizar" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                  <Button fx:id="btnEliminar" mnemonicParsing="false" text="Eliminar" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                  <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#btnVolverAction" text="&lt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#btnSiguienteAction" text="&gt;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <Button fx:id="btnAgregar" mnemonicParsing="false" onAction="#agregarPersona" text="Agregar" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <Button fx:id="btnActualizar" mnemonicParsing="false" onAction="#editarPersona" text="Actualizar" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#cancelarEliminar" text="Eliminar" GridPane.columnIndex="5" GridPane.rowIndex="4" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Teléfono:  " GridPane.columnIndex="4" />
-                  <TextField fx:id="txtTelefono1" GridPane.columnIndex="5" />
+                  <TextField fx:id="txtTelefono" disable="true" GridPane.columnIndex="5" />
                </children>
             </GridPane>
          </bottom>
@@ -150,8 +151,8 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField fx:id="txtId1" />
-                        <Button mnemonicParsing="false" GridPane.columnIndex="1">
+                        <TextField fx:id="txtBuscar" />
+                        <Button fx:id="btnBuscar" mnemonicParsing="false" GridPane.columnIndex="1">
                            <graphic>
                               <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

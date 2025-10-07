@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.gruponueve.controller.PersonaController;
 
 /**
  *
@@ -50,8 +51,7 @@ public class Main extends Application{
             //Prueba
             stage.setMaximized(true);
             //----
-            stage.setTitle("ME ATRAPASTE ME TUVISTE ENTRE TUS BRAZOS, ME ENSEÑASTE LO "+
-                            "INHUMANO Y LO INFELIZ QUE PUEDO SEEEER");
+            stage.setTitle("MuniGuate");
         } catch (Exception e) {
             logger.info("ERROR AL CAMBIAR " + e.getMessage());
             e.printStackTrace();
@@ -62,5 +62,10 @@ public class Main extends Application{
     public void menuPrincipal(){
         //ControllerMenuPrincipal cmp = cambiarEscena("VistaMenuPrincipal.fxml",ANCHO, ALTO).getController();
         //cmp.setPrincipal(this);
+    }
+    
+    public void persona(){
+        PersonaController pc = cambioEscena("PersonaView.fxml").getController();
+        pc.setPrincipal(this);
     }
 }
