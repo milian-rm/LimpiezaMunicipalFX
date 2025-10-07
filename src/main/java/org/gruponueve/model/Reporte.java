@@ -6,10 +6,8 @@ package org.gruponueve.model;
 
 /**
  *
- * @author Roberto
+ * @author informatica
  */
-public enum Rol {
-    PERSONAL,
-    SUPERVISOR,
-    ALCALDE
+public class Reporte {
+    
 }

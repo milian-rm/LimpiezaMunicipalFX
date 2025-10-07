@@ -1,3 +1,4 @@
+org\gruponueve\model\Reporte.class
 org\gruponueve\controller\PersonaController.class
 org\gruponueve\controller\MunicipalidadController.class
 org\gruponueve\model\Persona.class

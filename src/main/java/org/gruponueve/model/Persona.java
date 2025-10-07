@@ -10,33 +10,22 @@ package org.gruponueve.model;
  */
 public class Persona {
     int idPersona;
-    String nombres, apellidos, telefono, correo, contrasenia;
+    String nombres, apellidos, telefono;
     Double salario;
     Rol rol;
 
     public Persona() {
     }
 
-    public Persona(int idPersona, String nombres, String apellidos, String telefono, String correo, String contrasenia, Double salario, Rol rol) {
+    public Persona(int idPersona, String nombres, String apellidos, String telefono, Double salario, Rol rol) {
         this.idPersona = idPersona;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.telefono = telefono;
-        this.correo = correo;
-        this.contrasenia = contrasenia;
         this.salario = salario;
         this.rol = rol;
     }
 
-    public Persona(int idPersona, String nombres, String apellidos, String telefono, String correo, Double salario, Rol rol) {
-        this.idPersona = idPersona;
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-        this.telefono = telefono;
-        this.correo = correo;
-        this.salario = salario;
-        this.rol = rol;
-    }
     
 
     public int getIdPersona() {
@@ -69,22 +58,6 @@ public class Persona {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public String getContrasenia() {
-        return contrasenia;
-    }
-
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
     }
 
     public Double getSalario() {
