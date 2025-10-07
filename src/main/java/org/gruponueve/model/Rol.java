@@ -11,7 +11,5 @@ package org.gruponueve.model;
 public enum Rol {
     PERSONAL,
     SUPERVISOR,
-    ALCALDE_AUXILIAR,
-    ALCALDE_MUNICIPAL,
-    USUARIO
+    ALCALDE
 }

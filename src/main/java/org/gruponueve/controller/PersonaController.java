@@ -45,11 +45,11 @@ public class PersonaController implements Initializable{
     protected TableView<Persona> tablaPersona;
     
     @FXML
-    protected TableColumn colId, colNombres, colApellidos, colTelefono, colCorreo,
+    protected TableColumn colId, colNombres, colApellidos, colTelefono,
             colSalario, colRol;
     
     @FXML
-    private TextField txtId, txtNombres, txtApellidos, txtTelefono, txtCorreo, txtContrasenia,
+    private TextField txtId, txtNombres, txtApellidos, txtTelefono,
             txtBuscar;
     
     @FXML
@@ -84,7 +84,6 @@ public class PersonaController implements Initializable{
         colNombres.setCellValueFactory(new PropertyValueFactory<Persona, String>("nombre"));
         colApellidos.setCellValueFactory(new PropertyValueFactory<Persona, String>("apellido"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<Persona, String>("telefono"));
-        colCorreo.setCellValueFactory(new PropertyValueFactory<Persona, String>("correo"));
         colSalario.setCellValueFactory(new PropertyValueFactory<Persona, Double>("Salario"));
         colRol.setCellValueFactory(new PropertyValueFactory<Persona, Rol>("Rol"));
     }
@@ -108,7 +107,6 @@ public class PersonaController implements Initializable{
                             resultado.getString("nombres"),
                             resultado.getString("apellidos"),
                             resultado.getString("telefono"),
-                            resultado.getString("correo"),
                             resultado.getDouble("salario"),
                             Rol.valueOf(resultado.getString("rol").toUpperCase())));
                         }
@@ -125,7 +123,6 @@ public class PersonaController implements Initializable{
             txtNombres.setText(persona.getNombres());
             txtApellidos.setText(persona.getApellidos());
             txtTelefono.setText(persona.getTelefono());
-            txtCorreo.setText(persona.getCorreo());
         }
         spSalario.getValueFactory().setValue(persona.getSalario());
         
@@ -170,7 +167,6 @@ public class PersonaController implements Initializable{
                 txtNombres.getText(), 
                 txtApellidos.getText(), 
                 txtTelefono.getText(), 
-                txtCorreo.getText(), 
                 spSalario.getValue(),
                 Rol.valueOf(rol));
     }
@@ -186,8 +182,6 @@ public class PersonaController implements Initializable{
             enunciado.setString(2, modeloPersona.getNombres());
             enunciado.setString(3, modeloPersona.getApellidos());
             enunciado.setString(4, modeloPersona.getTelefono());
-            enunciado.setString(5, modeloPersona.getCorreo());
-            enunciado.setString(6, modeloPersona.getContrasenia());
             enunciado.setDouble(7, modeloPersona.getSalario());
             enunciado.setString(8, String.valueOf(modeloPersona.getRol()));
             int registrosAgregados = enunciado.executeUpdate();
@@ -211,8 +205,6 @@ public class PersonaController implements Initializable{
             enunciado.setString(2, modeloPersona.getNombres());
             enunciado.setString(3, modeloPersona.getApellidos());
             enunciado.setString(4, modeloPersona.getTelefono());
-            enunciado.setString(5, modeloPersona.getCorreo());
-            enunciado.setString(6, modeloPersona.getContrasenia());
             enunciado.setDouble(7, modeloPersona.getSalario());
             enunciado.setString(8, String.valueOf(modeloPersona.getRol()));
             enunciado.execute();
@@ -242,8 +234,6 @@ public class PersonaController implements Initializable{
         txtNombres.clear();
         txtApellidos.clear();
         txtTelefono.clear();
-        txtCorreo.clear();
-        txtContrasenia.clear();
         spSalario.getValueFactory().setValue(reinicio); 
     }
     private void actualizarEstadoFormulario(EstadoFormulario estado){
@@ -252,8 +242,6 @@ public class PersonaController implements Initializable{
         txtNombres.setDisable(!activo);
         txtApellidos.setDisable(!activo);
         txtTelefono.setDisable(!activo);
-        txtCorreo.setDisable(!activo);
-        txtContrasenia.setDisable(!activo);
         spSalario.setDisable(!activo);
         
         tablaPersona.setDisable(activo);

@@ -1,2 +1,9 @@
+org\gruponueve\controller\PersonaController.class
+org\gruponueve\controller\MunicipalidadController.class
+org\gruponueve\model\Persona.class
+org\gruponueve\controller\PersonaController$EstadoFormulario.class
 org\gruponueve\model\Municipalidad.class
+org\gruponueve\model\Rol.class
 org\gruponueve\system\Main.class
+org\gruponueve\controller\MunicipalidadController$EstadoFormulario.class
+org\gruponueve\database\Conexion.class

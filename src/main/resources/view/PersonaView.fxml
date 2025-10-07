@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1500.0" styleClass="fondo" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <stylesheets>
+      <URL value="@municipalidadview.css" />
+   </stylesheets>
+   <children>
+      <BorderPane layoutX="-5.0" prefHeight="803.0" prefWidth="1509.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <BorderPane prefHeight="342.0" prefWidth="1384.0" BorderPane.alignment="CENTER">
+               <center>
+                  <TableView fx:id="tablaPersona" prefHeight="312.0" prefWidth="1384.0" BorderPane.alignment="CENTER">
+                     <columns>
+                        <TableColumn fx:id="colId" prefWidth="161.66668701171875" text="ID" />
+                        <TableColumn fx:id="colNombres" prefWidth="159.0" text="Nombres" />
+                        <TableColumn fx:id="colApellidos" prefWidth="204.33334350585938" text="Apellidos" />
+                        <TableColumn fx:id="colTelefono" prefWidth="197.0" text="Teléfono" />
+                        <TableColumn fx:id="colCorreo" prefWidth="469.666748046875" text="Correo" />
+                        <TableColumn fx:id="colSalario" prefWidth="469.666748046875" text="Salario" />
+                        <TableColumn fx:id="colRol" prefWidth="469.666748046875" text="Rol" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </center>
+            </BorderPane>
+         </center>
+         <bottom>
+            <GridPane prefHeight="383.0" prefWidth="1500.0" BorderPane.alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="492.0" minWidth="0.0" prefWidth="136.666748046875" />
+                  <ColumnConstraints halignment="RIGHT" maxWidth="1200.0" minWidth="10.0" prefWidth="323.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1200.0" minWidth="0.0" prefWidth="257.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1200.0" minWidth="10.0" prefWidth="177.6666259765625" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="980.3333129882812" minWidth="10.0" prefWidth="323.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1372.0" minWidth="10.0" prefWidth="257.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1223.3333129882812" minWidth="10.0" prefWidth="136.666748046875" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="872.0000610351562" minWidth="0.0" prefWidth="0.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="65.66668701171875" minHeight="1.0" prefHeight="63.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="120.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="132.33331298828125" minHeight="10.0" prefHeight="78.66668701171875" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <TextField fx:id="txtId" GridPane.columnIndex="2" />
+                  <TextField fx:id="txtNombres" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtApellidos" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Spinner fx:id="spSalario" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                  <GridPane GridPane.columnIndex="5" GridPane.rowIndex="2">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <RadioButton fx:id="rbUsuario" mnemonicParsing="false" text="Usuario" />
+                        <RadioButton fx:id="rbPersonal" mnemonicParsing="false" text="Personal" GridPane.rowIndex="1" />
+                        <RadioButton fx:id="rbSupervisor" mnemonicParsing="false" text="Supervisor" GridPane.rowIndex="2" />
+                        <RadioButton fx:id="rbAlcaldeAux" mnemonicParsing="false" prefHeight="17.0" prefWidth="115.0" text="Alcalde Auxiliar" GridPane.columnIndex="1" />
+                        <RadioButton fx:id="rbAlcaldeMun" mnemonicParsing="false" prefHeight="17.0" prefWidth="126.0" text="Alcalde Municipal" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID:  " GridPane.columnIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nombres:  " GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Apellidos:  " GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Salario:  " GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Rol:  " GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <Button fx:id="btnAnterior" mnemonicParsing="false" text="&lt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Button fx:id="btnSiguiente" mnemonicParsing="false" text="&gt;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <Button fx:id="btnAgregar" mnemonicParsing="false" text="Agregar" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <Button fx:id="btnActualizar" mnemonicParsing="false" text="Actualizar" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" text="Eliminar" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Teléfono:  " GridPane.columnIndex="4" />
+                  <TextField fx:id="txtTelefono1" GridPane.columnIndex="5" />
+               </children>
+            </GridPane>
+         </bottom>
+         <left>
+            <GridPane prefHeight="337.0" prefWidth="57.0" BorderPane.alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+         </left>
+         <right>
+            <GridPane prefHeight="337.0" prefWidth="59.0" BorderPane.alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+         </right>
+         <top>
+            <GridPane prefHeight="76.0" prefWidth="1500.0" BorderPane.alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="736.6666870117188" minWidth="10.0" prefWidth="71.99999618530273" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="736.6666870117188" minWidth="10.0" prefWidth="130.00000381469727" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1279.3333129882812" minWidth="10.0" prefWidth="428.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="1279.3333129882812" minWidth="10.0" prefWidth="287.33331298828125" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1279.3333129882812" minWidth="10.0" prefWidth="401.66668701171875" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1279.3333129882812" minWidth="10.0" prefWidth="192.333251953125" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1279.3333129882812" minWidth="10.0" prefWidth="74.666748046875" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="75.33333396911621" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <ImageView fitHeight="75.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@../image/logo_municipalidad-Photoroom.png" />
+                     </image>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Persona" GridPane.columnIndex="3" />
+                  <GridPane GridPane.columnIndex="2">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="327.0" minWidth="10.0" prefWidth="327.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="360.0" minWidth="10.0" prefWidth="88.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <TextField fx:id="txtId1" />
+                        <Button mnemonicParsing="false" GridPane.columnIndex="1">
+                           <graphic>
+                              <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/search_50dp_0D0C9E_FILL0_wght400_GRAD0_opsz48.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </GridPane>
+               </children>
+            </GridPane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
