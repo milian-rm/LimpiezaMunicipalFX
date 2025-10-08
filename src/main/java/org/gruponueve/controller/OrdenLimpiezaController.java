@@ -73,12 +73,11 @@ public class OrdenLimpiezaController implements Initializable {
         
     }
 
-
     public void configurarColumna() {
-        colID.setCellValueFactory(new PropertyValueFactory<OrdenLimpieza, Integer>("idUbicacion"));
-        colHorarioI.setCellFactory(new PropertyValueFactory<OrdenLimpieza, String>("horarioInicio"));
-        colHorarioC.setCellFactory(new PropertyValueFactory<OrdenLimpieza, String>("horarioCierre"));
-        colReporte.setCellFactory(new PropertyValueFactory<OrdenLimpieza, Integer>("idReporte"));
+        colID.setCellValueFactory(new PropertyValueFactory<OrdenLimpieza, Integer>("idOrden"));
+        colHorarioI.setCellValueFactory(new PropertyValueFactory<OrdenLimpieza, String>("horarioInicio"));
+        colHorarioC.setCellValueFactory(new PropertyValueFactory<OrdenLimpieza, String>("horarioCierre"));
+        colReporte.setCellValueFactory(new PropertyValueFactory<OrdenLimpieza, Integer>("idReporte"));
     }
 
     public void cargarTabla() {
@@ -99,11 +98,11 @@ public class OrdenLimpiezaController implements Initializable {
             while (rs.next()) {
                 reportes.add(new Reporte(
                     rs.getInt("idReporte"),
+                    rs.getInt("idUbicacion"),
+                    rs.getString("estado"),
                     rs.getString("nombrePersona"),
                     rs.getString("telefono"),
-                    rs.getString("descripcion"),
-                    rs.getString("estado"),
-                    rs.getInt("idUbicacion")
+                    rs.getString("descripcion")
                 ));
             }
         } catch (SQLException e) {
@@ -281,7 +280,7 @@ public class OrdenLimpiezaController implements Initializable {
     }
     
     @FXML
-    private void editarUbicacion(){
+    private void editarOrden(){
         estadoFormulario(EstadoFormulario.EDITAR);
     }
     

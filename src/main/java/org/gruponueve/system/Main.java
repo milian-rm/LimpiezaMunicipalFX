@@ -7,6 +7,7 @@ package org.gruponueve.system;
 import java.util.logging.Logger;
 
 import org.gruponueve.controller.MunicipalidadController;
+import org.gruponueve.controller.OrdenLimpiezaController;
 import org.gruponueve.controller.UsuarioController;
 
 import javafx.application.Application;
@@ -34,7 +35,7 @@ public class Main extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        ubicacion();
+        ordenLimpieza();
         /*FXMLLoader cargador = new FXMLLoader(getClass().getResource(
                 "/view/PersonaView.fxml"));
         Parent raiz = cargador.load();
@@ -97,6 +98,16 @@ public class Main extends Application{
         try{
             UbicacionController uc = (UbicacionController) cambioEscena("UbicacionView.fxml").getController();
             uc.setPrincipal(this);
+        } catch(Exception e){
+            System.out.println("Error al cargar la vista: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void ordenLimpieza(){
+        try{
+            OrdenLimpiezaController olc = (OrdenLimpiezaController) cambioEscena("OrdenLimpiezaView.fxml").getController();
+            olc.setPrincipal(this);
         } catch(Exception e){
             System.out.println("Error al cargar la vista: " + e.getMessage());
             e.printStackTrace();
