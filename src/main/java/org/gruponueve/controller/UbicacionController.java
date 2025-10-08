@@ -49,7 +49,7 @@ public class UbicacionController implements Initializable {
             txtCalle, txtAvenida;
 
     @FXML
-    private ComboBox cbxMunicipalidad;
+    private ComboBox<Municipalidad> cbxMunicipalidad;
 
     @FXML
     private Button btnAnterior, btnSiguiente, btnNuevo,
@@ -67,10 +67,10 @@ public class UbicacionController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         configurarColumna();
         cargarTabla();
+        cargarMunicipalidadComboBox();
         tablaUbicaciones.setOnMouseClicked(event -> cargarEnTextoField());
         txtBuscar.setOnAction(eh -> BuscarTabla());
-
-        cargarMunicipalidadComboBox();
+        
     }
 
 
@@ -91,21 +91,12 @@ public class UbicacionController implements Initializable {
             cargarEnTextoField();
         }
     }
-
-    public void cargarEnTextoField() {
-        Ubicacion ubicacionSeleccionada = tablaUbicaciones.getSelectionModel().getSelectedItem();
-        txtId.setText(String.valueOf(ubicacionSeleccionada.getIdUbicacion()));
-        txtZona.setText(ubicacionSeleccionada.getZona());
-        txtColonia.setText(ubicacionSeleccionada.getColonia());
-        txtCalle.setText(ubicacionSeleccionada.getCalle());
-        txtAvenida.setText(ubicacionSeleccionada.getAvenida());
-    }
-    
+ 
     private ArrayList<Municipalidad> cargarModeloMunicipalidad() {
         ArrayList<Municipalidad> municipalidades = new ArrayList<>();
         try {
             CallableStatement cs = Conexion.getInstancia().getConexion()
-                    .prepareCall("CALL sp_ListarMunicipalidades();");
+                    .prepareCall("call sp_ListarMunicipalidades();");
             ResultSet rs = cs.executeQuery();
             while (rs.next()) {
                 municipalidades.add(new Municipalidad(
@@ -122,6 +113,23 @@ public class UbicacionController implements Initializable {
     private void cargarMunicipalidadComboBox() {
         ObservableList<Municipalidad> listaMunicipalidades = FXCollections.observableArrayList(cargarModeloMunicipalidad());
         cbxMunicipalidad.setItems(listaMunicipalidades);
+    }
+
+    public void cargarEnTextoField() {
+        Ubicacion ubicacionSeleccionada = tablaUbicaciones.getSelectionModel().getSelectedItem();
+        if (ubicacionSeleccionada != null) {
+            txtId.setText(String.valueOf(ubicacionSeleccionada.getIdUbicacion()));
+            txtZona.setText(ubicacionSeleccionada.getZona());
+            txtColonia.setText(ubicacionSeleccionada.getColonia());
+            txtCalle.setText(ubicacionSeleccionada.getCalle());
+            txtAvenida.setText(ubicacionSeleccionada.getAvenida());
+        }
+        for (Municipalidad m : cbxMunicipalidad.getItems()) {
+                if (m.getIdMunicipalidad()== ubicacionSeleccionada.getIdMunicipalidad()) {
+                    cbxMunicipalidad.setValue(m);
+                    break;
+                }
+            }
     }
 
     public ArrayList<Ubicacion> ListarTabla() {
@@ -285,7 +293,7 @@ public class UbicacionController implements Initializable {
     }
     
     @FXML
-    private void editarPersona(){
+    private void editarUbicacion(){
         estadoFormulario(EstadoFormulario.EDITAR);
     }
     

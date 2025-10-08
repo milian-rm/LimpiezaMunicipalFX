@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.gruponueve.controller.PersonaController;
+import org.gruponueve.controller.UbicacionController;
 
 /**
  *
@@ -33,14 +34,15 @@ public class Main extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        usuario();
+        ubicacion();
         /*FXMLLoader cargador = new FXMLLoader(getClass().getResource(
                 "/view/PersonaView.fxml"));
         Parent raiz = cargador.load();
         Scene escena = new Scene(raiz);
         stage.setScene(escena);
-        stage.setMaximized(true);
-        stage.show();*/
+        stage.setMaximized(true);*/
+        
+        stage.show();
     }
 
     public FXMLLoader cambioEscena(String fxml){
@@ -86,6 +88,16 @@ public class Main extends Application{
             UsuarioController uc = (UsuarioController) cambioEscena("UsuarioView.fxml").getController();
             uc.setPrincipal(this);
         } catch (Exception e) {
+            System.out.println("Error al cargar la vista: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void ubicacion(){
+        try{
+            UbicacionController uc = (UbicacionController) cambioEscena("UbicacionView.fxml").getController();
+            uc.setPrincipal(this);
+        } catch(Exception e){
             System.out.println("Error al cargar la vista: " + e.getMessage());
             e.printStackTrace();
         }
