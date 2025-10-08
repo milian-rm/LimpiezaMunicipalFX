@@ -6,12 +6,12 @@ public class Ubicacion {
     private String colonia;
     private String calle;
     private String avenida;
-    private String idMunicipalidad;
+    private int idMunicipalidad;
 
     public Ubicacion() {
     }
 
-    public Ubicacion(int idUbicacion, String zona, String colonia, String calle, String avenida, String idMunicipalidad) {
+    public Ubicacion(int idUbicacion, String zona, String colonia, String calle, String avenida, int idMunicipalidad) {
         this.idUbicacion = idUbicacion;
         this.zona = zona;
         this.colonia = colonia;
@@ -60,11 +60,11 @@ public class Ubicacion {
         this.avenida = avenida;
     }
 
-    public String getIdMunicipalidad() {
+    public int getIdMunicipalidad() {
         return idMunicipalidad;
     }
 
-    public void setIdMunicipalidad(String idMunicipalidad) {
+    public void setIdMunicipalidad(int idMunicipalidad) {
         this.idMunicipalidad = idMunicipalidad;
     }
 
