@@ -101,7 +101,6 @@ public class PersonaController implements Initializable{
     private ArrayList<Persona> listarPersonas(){
         ArrayList<Persona> personas = new ArrayList<>();
         try {
-//            Connection conexion = Conexion.getInstancia().getConexion();
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
                     .prepareCall("call sp_ListarPersona();");
             ResultSet resultado = enunciado.executeQuery();
