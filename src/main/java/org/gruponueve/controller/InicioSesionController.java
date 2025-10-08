@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import org.gruponueve.database.Conexion;
@@ -15,44 +16,71 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.gruponueve.model.Persona;
+import org.gruponueve.model.Rol;
 
 public class InicioSesionController implements Initializable {
+
     private Main principal;
     private Usuario user;
+    private Persona persona;
 
     @FXML
-    private Label lblAdvertencia; 
-    @FXML TextField txtfldCorreo;
-    @FXML PasswordField PssfldContraseña;
+    private Label lblAdvertencia;
+    @FXML
+    TextField txtfldCorreo;
+    @FXML
+    PasswordField PssfldContraseña;
 
     public void setPrincipal(Main principal) {
         this.principal = principal;
     }
-    
-    public void modeloUsuario(){
+
+    public void modeloUsuario() {
         user = new Usuario();
         String correo = txtfldCorreo.getText();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
                     .prepareCall("call sp_BuscarUsuarioPorCorreo(?);");
-            enunciado.setString(1,correo);
+            enunciado.setString(1, correo);
             ResultSet resultado = enunciado.executeQuery();
             if (resultado.next()) {
-            user = new Usuario(
-                resultado.getInt(1), 
-                resultado.getString(2), 
-                resultado.getString(3));
+                user = new Usuario(
+                        resultado.getInt(1),
+                        resultado.getString(2),
+                        resultado.getString(3));
             }
         } catch (SQLException ex) {
             System.out.println("Error al guardar usuario " + ex.getMessage());
             ex.printStackTrace();
         }
     }
-    
-    public void IngresarMenu(){
+
+    private void cargarModeloPersona() {
+        persona = new Persona();
+        try {
+            CallableStatement enunciado = Conexion.getInstancia().getConexion().
+                    prepareCall("call sp_ListarPersona();");
+            ResultSet resultado = enunciado.executeQuery();
+            if (resultado.next()) {
+                persona = new Persona(
+                        resultado.getInt(1),
+                        resultado.getString(2),
+                        resultado.getString(3),
+                        resultado.getString(4),
+                        resultado.getDouble(5),
+                        Rol.valueOf(resultado.getString(6).toUpperCase().replace(" ", "_")),
+                        resultado.getInt(7));
+            }
+        } catch (SQLException a) {
+            a.printStackTrace();
+        }
+    }
+
+    public void IngresarMenu() {
         user = new Usuario();
         //Comprobacion de credencial de contraseñas
-        
+
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
                     .prepareCall("call sp_loginUsuario(?,?);");
@@ -61,11 +89,14 @@ public class InicioSesionController implements Initializable {
             ResultSet resultado = enunciado.executeQuery();
             if (resultado.next()) {
                 String mensaje = resultado.getString("mensaje");
-                
+
                 if ("TRUE".equals(mensaje)) {
                     modeloUsuario();
+                    cargarModeloPersona();
+                    int idP = persona.getIdPersona();
                     //principal.MenuPrincipal();
                     System.out.println("Bienvenido " + user.getCorreo());
+                    obtenerRol(idP);
                 } else {
                     System.out.println("FALSE");
                     lblAdvertencia.setVisible(true);
@@ -77,6 +108,38 @@ public class InicioSesionController implements Initializable {
             ex.printStackTrace();
         }
     }
+
+    public void obtenerRol(int id){
+        persona = new Persona();
+        try {
+            CallableStatement enunciado = Conexion.getInstancia().getConexion().
+                    prepareCall("call sp_BuscarPersonalPorIdUser(?);");
+            enunciado.setInt(1, id);
+            ResultSet resultado = enunciado.executeQuery();
+            if (resultado.next()) {
+                String mensaje = resultado.getString(1);
+                
+                if ("Personal".equals(mensaje)) {
+                    System.out.println("Usted es " + mensaje);
+                    principal.setRol(mensaje);
+                } else if("Supervisor".equals(mensaje)){
+                    System.out.println("Usted es " + mensaje);
+                    principal.setRol(mensaje);
+                } else if("Alcalde auxiliar".equals(mensaje)||"Alcalde municipal".equals(mensaje)){
+                    System.out.println("Usted es " + mensaje);
+                    principal.setRol(mensaje);
+                } else{
+                    System.out.println("NO EXISTE");
+                    principal.setRol(null);
+                }
+                
+                System.out.println(principal.getRol());
+            }
+        } catch (Exception e) {
+            System.out.println("Error al buscar rol " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -84,4 +147,6 @@ public class InicioSesionController implements Initializable {
         txtfldCorreo.setOnAction(eh -> PssfldContraseña.requestFocus());
         PssfldContraseña.setOnAction(eh -> IngresarMenu());
     }
+    
+    
 }

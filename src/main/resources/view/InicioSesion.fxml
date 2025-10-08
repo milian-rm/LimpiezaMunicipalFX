@@ -19,7 +19,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="805.0" prefWidth="1498.0" styleClass="fondo" stylesheets="@iniciosesion.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.gruponueve.controller.InicioSesionController">
    <children>
-      <BorderPane prefHeight="820.0" prefWidth="1504.0">
+      <BorderPane prefHeight="820.0" prefWidth="1504.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
             <GridPane BorderPane.alignment="CENTER">
               <columnConstraints>
