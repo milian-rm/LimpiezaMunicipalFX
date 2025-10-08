@@ -28,6 +28,18 @@ public class Main extends Application{
     private static int ANCHO = 1500;
     private static int ALTO = 800;
     private static String URL = "/view/";
+    
+    private String rol;
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+    
+     
     public static void main(String[] args) {
         System.out.println("Prueba funcionamiento");
         launch(args);
