@@ -20,6 +20,13 @@ public class Grupo {
         this.idPersona = idPersona;
     }
 
+    public Grupo(int idOrden, int idPersona) {
+        this.idOrden = idOrden;
+        this.idPersona = idPersona;
+    }
+    
+    
+
     public int getIdGrupoPersonas() {
         return idGrupoPersonas;
     }

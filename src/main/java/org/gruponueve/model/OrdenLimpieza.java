@@ -51,5 +51,12 @@ public class OrdenLimpieza {
         this.idReporte = idReporte;
     }
 
+    @Override
+    public String toString() {
+        return "idOrden=" + idOrden + ", horarioInicio=" + horarioInicio + ", horarioCierre=" + horarioCierre;
+    }
+    
+    
+
     
 }

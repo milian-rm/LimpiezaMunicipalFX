@@ -2,6 +2,7 @@ org\gruponueve\controller\GrupoController.class
 org\gruponueve\model\OrdenLimpieza.class
 org\gruponueve\controller\PersonaController.class
 org\gruponueve\controller\MunicipalidadController.class
+org\gruponueve\controller\AsignacionGrupoController.class
 org\gruponueve\model\Municipalidad.class
 org\gruponueve\model\Grupo.class
 org\gruponueve\controller\GrupoController$EstadoFormulario.class

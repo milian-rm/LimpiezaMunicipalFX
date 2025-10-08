@@ -40,7 +40,7 @@ public class PersonaController implements Initializable{
     protected Main principal;
     private ObservableList<Persona> listaPersonas;
     private Persona modeloPersona;
-    private enum EstadoFormulario {AGREGAR, EDITAR, ELIMINAR, NINGUNA}
+    public enum EstadoFormulario {AGREGAR, EDITAR, ELIMINAR, NINGUNA}
     EstadoFormulario estadoActual = EstadoFormulario.NINGUNA;
 
     @FXML
@@ -67,6 +67,12 @@ public class PersonaController implements Initializable{
     @FXML
     private Button btnBuscar, btnAnterior, btnSiguiente, btnAgregar, btnActualizar, btnEliminar;
 
+    //Método para poder mostrar la tabla en la vista de Asignación de Personal
+    public void inicializarPersonas() {
+    configurarColumnas();
+    cargarPersonasVista();
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarColumnas();
@@ -153,6 +159,11 @@ public class PersonaController implements Initializable{
         }else if(String.valueOf(persona.getRol()).equalsIgnoreCase("ALCALDE_MUNICIPAL")){
             rbAlcaldeMun.setSelected(true);
         }
+    }
+    
+    protected void cargarPersonasVista() {
+        listaPersonas = FXCollections.observableArrayList(listarPersonas());
+        tablaPersona.setItems(listaPersonas);
     }
     
    
