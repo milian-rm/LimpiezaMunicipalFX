@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package org.gruponueve.controller;
-/*
+
 import java.net.URL;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -25,6 +26,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.gruponueve.database.Conexion;
 import org.gruponueve.model.Reporte;
 import org.gruponueve.model.Rol;
+import org.gruponueve.model.Ubicacion;
 import org.gruponueve.system.Main;
 
 /**
@@ -32,7 +34,7 @@ import org.gruponueve.system.Main;
  *
  * @author informatica
  */
-/*
+
 public class ReporteController implements Initializable {
     
     protected Main principal;
@@ -45,19 +47,18 @@ public class ReporteController implements Initializable {
     protected TableView<Reporte> tablaReporte;
     
     @FXML
-    protected TableColumn colId, colNombres, colApellidos, colTelefono,
-            colSalario, colRol;
+    protected TableColumn colId, colNombre, colTelefono,colDescripcion, colEstado,
+            colIdUbicacion;
     
     @FXML
-    private TextField txtId, txtNombres, txtApellidos, txtTelefono,
+    private TextField txtId, txtNombre, txtTelefono, txtDescripcion,
             txtBuscar;
     
     @FXML
-    private Spinner<Double> spSalario;
+    private RadioButton rbPendiente, rbEnProceso, rbTerminado;
     
     @FXML
-    private RadioButton rbReportel, rbSupervisor, rbAlcaldeAux, 
-            rbAlcaldeMun;
+    private ComboBox<Ubicacion> cbxUbicaciones;
     
     @FXML
     private Button btnBuscar, btnAnterior, btnSiguiente, btnAgregar, btnActualizar, btnEliminar;
@@ -65,7 +66,7 @@ public class ReporteController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarColumnas();
-        configurarSpinner();
+        cargarUbicacion();
         cargarTablaModelos();
         // expresiones lambda el metodo 
         tablaReporte.setOnMouseClicked(eventHandler -> cargarReporteFormulario());
@@ -85,34 +86,27 @@ public class ReporteController implements Initializable {
 
     private void configurarColumnas(){
         colId.setCellValueFactory(new PropertyValueFactory<Reporte, Integer>("idReporte"));
-        colNombres.setCellValueFactory(new PropertyValueFactory<Reporte, String>("nombres"));
-        colApellidos.setCellValueFactory(new PropertyValueFactory<Reporte, String>("apellidos"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<Reporte, String>("nombrePersona"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<Reporte, String>("telefono"));
-        colSalario.setCellValueFactory(new PropertyValueFactory<Reporte, Double>("salario"));
-        colRol.setCellValueFactory(new PropertyValueFactory<Reporte, Rol>("rol"));
-    }
-    
-    private void configurarSpinner(){
-        SpinnerValueFactory<Double> valor = 
-                new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000, 0);
-        spSalario.setValueFactory(valor);
+        colDescripcion.setCellValueFactory(new PropertyValueFactory<Reporte, String>("descripcion"));
+        colEstado.setCellValueFactory(new PropertyValueFactory<Reporte, String>("estado"));
+        colIdUbicacion.setCellValueFactory(new PropertyValueFactory<Reporte, Integer>("idUbicacion"));        
     }
     
     private ArrayList<Reporte> listarReportes(){
         ArrayList<Reporte> reportes = new ArrayList<>();
         try {
-//            Connection conexion = Conexion.getInstancia().getConexion();
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                    .prepareCall("call sp_ListarReporte();");
+                    .prepareCall("call sp_ListarReportes();");
             ResultSet resultado = enunciado.executeQuery();
             while(resultado.next()){
                 reportes.add(new Reporte(
                             resultado.getInt("idReporte"),
-                            resultado.getString("nombres"),
-                            resultado.getString("apellidos"),
+                            resultado.getInt("idUbicacion"),
+                            resultado.getString("nombrePersona"),
                             resultado.getString("telefono"),
-                            resultado.getDouble("salario"),
-                            Rol.valueOf(resultado.getString("rol").toUpperCase())));
+                            resultado.getString("descripcion"),
+                            resultado.getString("estado")));
                         }
         } catch (SQLException ex) {
             System.out.println("Error al cargar de MySQL las Reportes");
@@ -124,20 +118,23 @@ public class ReporteController implements Initializable {
         Reporte reporte = tablaReporte.getSelectionModel().getSelectedItem();
         if (reporte != null) {
             txtId.setText(String.valueOf(reporte.getIdReporte()));
-            txtNombres.setText(reporte.getNombres());
-            txtApellidos.setText(reporte.getApellidos());
+            txtNombre.setText(reporte.getNombrePersona());
             txtTelefono.setText(reporte.getTelefono());
+            txtDescripcion.setText(reporte.getDescripcion());
         }
-        spSalario.getValueFactory().setValue(reporte.getSalario());
+        for (Ubicacion u: cbxUbicaciones.getItems()) {
+            if (u.getIdUbicacion()== reporte.getIdUbicacion()) {
+                cbxUbicaciones.setValue(u);
+                break;
+            }
+        }
         
-        if (String.valueOf(reporte.getRol()).equalsIgnoreCase("PERSONAL")) {
-            rbReportel.setSelected(true);
-        }else if(String.valueOf(reporte.getRol()).equalsIgnoreCase("SUPERVISOR")){
-            rbSupervisor.setSelected(true);
-        }else if(String.valueOf(reporte.getRol()).equalsIgnoreCase("ALCALDE_AUXILIAR")){
-            rbAlcaldeAux.setSelected(true);
-        }else if(String.valueOf(reporte.getRol()).equalsIgnoreCase("ALCALDE_MUNICIPAL")){
-            rbAlcaldeMun.setSelected(true);
+        if (String.valueOf(reporte.getEstado()).equalsIgnoreCase("Pendiente")) {
+            rbPendiente.setSelected(true);
+        }else if(String.valueOf(reporte.getEstado()).equalsIgnoreCase("En Proceso")){
+            rbEnProceso.setSelected(true);
+        }else if(String.valueOf(reporte.getEstado()).equalsIgnoreCase("Terminado")){
+            rbTerminado.setSelected(true);
         }
     }
     
@@ -152,43 +149,71 @@ public class ReporteController implements Initializable {
     private Reporte cargarModeloReporte(){
         int codigoReporte = txtId.getText().isEmpty() ? 0 : Integer.parseInt(txtId.getText());
         
-        String rol = "";
-        if (rbReportel.isSelected()) {
-            rol = "PERSONAL";
-        } else if (rbSupervisor.isSelected()) {
-            rol = "SUPERVISOR";
-        } else if (rbAlcaldeAux.isSelected()) {
-            rol = "ALCALDE_AUXILIAR";
-        } else if (rbAlcaldeMun.isSelected()) {
-            rol = "ALCALDE_MUNICIPAL";
+        Ubicacion ubicacionSeleccionada = cbxUbicaciones.getSelectionModel().getSelectedItem();
+        int codigoUbicacion = ubicacionSeleccionada != null ? ubicacionSeleccionada.getIdUbicacion(): 0;
+        
+        String estado = "";
+        if (rbPendiente.isSelected()) {
+            estado = "Pendiente";
+        } else if (rbEnProceso.isSelected()) {
+            estado = "En Proceso";
+        } else if (rbTerminado.isSelected()) {
+            estado = "Terminado";
         }
         return new Reporte(
-                codigoReporte, 
-                txtNombres.getText(), 
-                txtApellidos.getText(), 
+                codigoReporte,
+                codigoUbicacion,
+                txtNombre.getText(), 
                 txtTelefono.getText(), 
-                spSalario.getValue(),
-                Rol.valueOf(rol));
+                txtDescripcion.getText(), 
+                estado);
     }
    
+    private ArrayList<Ubicacion> cargarModeloUbicacion(){
+        ArrayList<Ubicacion> ubicaciones = new ArrayList<>();
+        try {
+            CallableStatement enunciado = Conexion.getInstancia().getConexion().
+                    prepareCall("call sp_ListarUbicaciones();");
+            ResultSet resultado = enunciado.executeQuery();
+            while(resultado.next()){
+                Ubicacion u = new Ubicacion(
+                        resultado.getInt(1), 
+                        resultado.getString(2),
+                        resultado.getString(3),
+                        resultado.getString(4),
+                        resultado.getString(5),
+                        resultado.getInt(6));
+                ubicaciones.add(u);
+            }
+        } catch (SQLException a) {
+            a.printStackTrace();
+        }
+        return ubicaciones;
+    }
+    
+    private void cargarUbicacion(){
+        ObservableList<Ubicacion> ubicaciones = FXCollections.observableArrayList(cargarModeloUbicacion());
+        cbxUbicaciones.setItems(ubicaciones);
+    }
     
     
     public void agregarModelo(){
         modeloReporte = cargarModeloReporte();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion().
-                    prepareCall("call sp_AgregarReporte(?,?,?,?);");
-            enunciado.setString(1, modeloReporte.getNombres());
-            enunciado.setString(2, modeloReporte.getApellidos());
-            enunciado.setString(3, modeloReporte.getTelefono());
-            enunciado.setDouble(4, modeloReporte.getSalario());
+                    prepareCall("call sp_AgregarReporte(?,?,?,?,?);");
+            enunciado.setString(1, modeloReporte.getNombrePersona());
+            enunciado.setString(2, modeloReporte.getTelefono());
+            enunciado.setString(3, modeloReporte.getDescripcion());
+            enunciado.setString(4, modeloReporte.getEstado());
+            enunciado.setInt(5, modeloReporte.getIdUbicacion());
             int registrosAgregados = enunciado.executeUpdate();
             if(registrosAgregados > 0){
-                System.out.println("Reporte agregada");
+                System.out.println("Reporte agregado");
                 cargarTablaModelos();
             }
         } catch (SQLException e) {
-            System.out.println("Error al insertar una Reporte");
+            System.out.println("Error al insertar un Reporte");
             e.printStackTrace();
         }
         
@@ -200,15 +225,15 @@ public class ReporteController implements Initializable {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
                     .prepareCall("call sp_ActualizarReporte(?,?,?,?,?,?);");
             enunciado.setInt(1, modeloReporte.getIdReporte());
-            enunciado.setString(2, modeloReporte.getNombres());
-            enunciado.setString(3, modeloReporte.getApellidos());
-            enunciado.setString(4, modeloReporte.getTelefono());
-            enunciado.setDouble(5, modeloReporte.getSalario());
-            enunciado.setString(6, String.valueOf(modeloReporte.getRol()));
+            enunciado.setString(2, modeloReporte.getNombrePersona());
+            enunciado.setString(3, modeloReporte.getTelefono());
+            enunciado.setString(4, modeloReporte.getDescripcion());
+            enunciado.setString(5, modeloReporte.getEstado());
+            enunciado.setInt(6, modeloReporte.getIdUbicacion());
             enunciado.execute();
             cargarTablaModelos();
         } catch (SQLException e) {
-            System.out.println("Error al editar una reporte");
+            System.out.println("Error al editar un reporte");
             e.printStackTrace();
         }
         
@@ -227,20 +252,22 @@ public class ReporteController implements Initializable {
         }
     }
     private void limpiarCampos(){
-        Double reinicio = 0.0;
         txtId.clear();
-        txtNombres.clear();
-        txtApellidos.clear();
+        txtNombre.clear();
+        txtDescripcion.clear();
         txtTelefono.clear();
-        spSalario.getValueFactory().setValue(reinicio); 
+        cbxUbicaciones.getSelectionModel().clearSelection(); 
     }
     private void actualizarEstadoFormulario(EstadoFormulario estado){
         estadoActual = estado;
         boolean activo = (estado == EstadoFormulario.AGREGAR || estado == EstadoFormulario.EDITAR);
-        txtNombres.setDisable(!activo);
-        txtApellidos.setDisable(!activo);
+        txtNombre.setDisable(!activo);
+        txtDescripcion.setDisable(!activo);
         txtTelefono.setDisable(!activo);
-        spSalario.setDisable(!activo);
+        rbPendiente.setDisable(!activo);
+        rbEnProceso.setDisable(!activo);
+        rbTerminado.setDisable(!activo);
+        cbxUbicaciones.setDisable(!activo);
         
         tablaReporte.setDisable(activo);
         btnBuscar.setDisable(activo);
@@ -309,7 +336,7 @@ public class ReporteController implements Initializable {
         String nombre = txtBuscar.getText().toLowerCase();
         ArrayList<Reporte> resultadoBusqueda = new ArrayList<>();
         for(Reporte m:listaReportes){
-            if(m.getNombres().toLowerCase().contains(nombre)){
+            if(m.getNombrePersona().toLowerCase().contains(nombre)){
                 resultadoBusqueda.add(m);
             }
         }
@@ -320,4 +347,3 @@ public class ReporteController implements Initializable {
     }
     
 }
-*/

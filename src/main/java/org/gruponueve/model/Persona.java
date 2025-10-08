@@ -9,7 +9,7 @@ package org.gruponueve.model;
  * @author Roberto
  */
 public class Persona {
-    int idPersona;
+    int idPersona, idUsuario;
     String nombres, apellidos, telefono;
     Double salario;
     Rol rol;
@@ -17,13 +17,14 @@ public class Persona {
     public Persona() {
     }
 
-    public Persona(int idPersona, String nombres, String apellidos, String telefono, Double salario, Rol rol) {
+    public Persona(int idPersona, String nombres, String apellidos, String telefono, Double salario, Rol rol, int idUsuario) {
         this.idPersona = idPersona;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.telefono = telefono;
         this.salario = salario;
         this.rol = rol;
+        this.idUsuario = idUsuario;
     }
 
     
@@ -75,6 +76,16 @@ public class Persona {
     public void setRol(Rol rol) {
         this.rol = rol;
     }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+    
+    
 
     @Override
     public String toString() {
