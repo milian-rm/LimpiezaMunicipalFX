@@ -17,7 +17,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.gruponueve.controller.AsignacionGrupoController;
+import org.gruponueve.controller.GrupoController;
+import org.gruponueve.controller.MenuPersonalController;
 import org.gruponueve.controller.PersonaController;
+import org.gruponueve.controller.ReporteController;
 import org.gruponueve.controller.UbicacionController;
 
 /**
@@ -46,7 +49,7 @@ public class Main extends Application{
         Scene escena = new Scene(raiz);
         stage.setScene(escena);
         stage.setMaximized(true);*/
-        asignacionGrupo();
+        menuPrincipalPersonal();
         stage.show();
     }
 
@@ -68,9 +71,9 @@ public class Main extends Application{
         return cargardorFXML;
     }
     
-    public void menuPrincipal(){
-        //ControllerMenuPrincipal cmp = cambioEscena("VistaMenuPrincipal.fxml").getController();
-        //cmp.setPrincipal(this);
+    public void menuPrincipalPersonal(){
+        MenuPersonalController mpc = (MenuPersonalController) cambioEscena("MenuPersonalView.fxml").getController();
+        mpc.setPrincipal(this);
     }
     
     public void persona(){
@@ -82,6 +85,16 @@ public class Main extends Application{
         try{
             MunicipalidadController mc = (MunicipalidadController) cambioEscena("MunicipalidadView.fxml").getController();
             mc.setPrincipal(this);
+        } catch (Exception e) {
+            System.out.println("Error al cargar la vista: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    public void reporte(){
+        try{
+            ReporteController rc = (ReporteController) cambioEscena("ReporteView.fxml").getController();
+            rc.setPrincipal(this);
         } catch (Exception e) {
             System.out.println("Error al cargar la vista: " + e.getMessage());
             e.printStackTrace();
@@ -137,4 +150,16 @@ public class Main extends Application{
             e.printStackTrace();
         }
     }
+    
+    public void grupo(){
+        try{
+            GrupoController gc = (GrupoController) cambioEscena("GrupoView.fxml").getController();
+            gc.setPrincipal(this);
+        } catch(Exception e){
+            System.out.println("Error al cargar la vista: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    
 }

@@ -7,6 +7,7 @@ package org.gruponueve.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import org.gruponueve.system.Main;
 
 /**
  * FXML Controller class
@@ -14,7 +15,20 @@ import javafx.fxml.Initializable;
  * @author Roberto
  */
 public class MenuAlcaldeController implements Initializable {
-
+    
+    private Main principal;
+    
+    public void setPrincipal(Main principal){
+        this.principal = principal;
+    }
+    
+    public Main getPrincipal(){
+        return principal;
+    }
+    
+    public void escenaInicio(){
+        principal.inicioSesion();
+    }
     /**
      * Initializes the controller class.
      */
@@ -22,5 +36,30 @@ public class MenuAlcaldeController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+    
+    public void reporte(){
+        principal.reporte();
+    }
+    public void ordenes(){
+        principal.ordenLimpieza();
+    }
+    public void asignarGrupo(){
+        principal.asignacionGrupo();
+    }
+    public void grupo(){
+        principal.grupo();
+    }
+    public void personal(){
+        principal.persona();
+    }
+    public void municipalidad(){
+        principal.municipalidad();
+    }
+    public void usuarios(){
+        principal.usuario();
+    }
+    public void ubicaciones(){
+        principal.ubicacion();
+    }
     
 }

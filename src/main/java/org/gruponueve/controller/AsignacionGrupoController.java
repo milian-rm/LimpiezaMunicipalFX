@@ -26,6 +26,7 @@ import org.gruponueve.database.Conexion;
 import org.gruponueve.model.Grupo;
 import org.gruponueve.model.OrdenLimpieza;
 import org.gruponueve.model.Persona;
+import org.gruponueve.system.Main;
 
 /**
  * FXML Controller class
@@ -54,8 +55,14 @@ public class AsignacionGrupoController extends PersonaController implements Init
     private ComboBox<OrdenLimpieza> cbxOrdenes;
 
 
-    public void escenaMenuPrincipal() {
-        principal.menuPrincipal();
+     private Main principal;
+    
+    public void setPrincipal(Main principal){
+        this.principal = principal;
+    }
+    
+    public Main getPrincipal(){
+        return principal;
     }
 
     @Override

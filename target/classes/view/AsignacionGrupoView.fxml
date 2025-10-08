@@ -82,10 +82,10 @@
                   <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#agregarDetalle" text="Agregar" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                  <Button mnemonicParsing="false" onAction="#eliminarDetalle" text="Eliminar" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                  <ComboBox fx:id="cbxOrdenes" prefWidth="150.0" GridPane.columnIndex="2" />
-                  <Button mnemonicParsing="false" text="Finalizar Grupo" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                  <Button mnemonicParsing="false" onAction="#agregarDetalle" prefHeight="53.0" prefWidth="175.0" styleClass="boton" text="Agregar" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <Button mnemonicParsing="false" onAction="#eliminarDetalle" prefHeight="51.0" prefWidth="189.0" styleClass="boton" text="Eliminar" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <ComboBox fx:id="cbxOrdenes" prefWidth="150.0" styleClass="field" GridPane.columnIndex="2" />
+                  <Button mnemonicParsing="false" prefHeight="56.0" prefWidth="254.0" styleClass="boton" text="Finalizar Grupo" GridPane.columnIndex="5" GridPane.rowIndex="4" />
                </children>
             </GridPane>
          </bottom>
@@ -129,7 +129,7 @@
                         <Image url="@../image/logo_municipalidad-Photoroom.png" />
                      </image>
                   </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Asignación Grupo Trabajo" GridPane.columnIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="texto" text="Asignación Grupo Trabajo" GridPane.columnIndex="3" />
                   <GridPane GridPane.columnIndex="2">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="327.0" minWidth="10.0" prefWidth="327.0" />
