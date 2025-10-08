@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.gruponueve.controller.AsignacionGrupoController;
 import org.gruponueve.controller.PersonaController;
 import org.gruponueve.controller.UbicacionController;
 
@@ -36,19 +37,16 @@ public class Main extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-<<<<<<< HEAD
-        FXMLLoader cargador = new FXMLLoader(getClass().getResource(
-                "/view/AsignacionGrupoView.fxml"));
-=======
-        inicioSesion();
+//        FXMLLoader cargador = new FXMLLoader(getClass().getResource(
+//                "/view/AsignacionGrupoView.fxml"));
+        //inicioSesion();
         /*FXMLLoader cargador = new FXMLLoader(getClass().getResource(
                 "/view/PersonaView.fxml"));
->>>>>>> ft/JoseMoran
         Parent raiz = cargador.load();
         Scene escena = new Scene(raiz);
         stage.setScene(escena);
         stage.setMaximized(true);*/
-        
+        asignacionGrupo();
         stage.show();
     }
 
@@ -124,6 +122,16 @@ public class Main extends Application{
         try{
             InicioSesionController isc = (InicioSesionController) cambioEscena("InicioSesion.fxml").getController();
             isc.setPrincipal(this);
+        } catch(Exception e){
+            System.out.println("Error al cargar la vista: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    public void asignacionGrupo(){
+        try{
+            AsignacionGrupoController agc = (AsignacionGrupoController) cambioEscena("AsignacionGrupoView.fxml").getController();
+            agc.setPrincipal(this);
         } catch(Exception e){
             System.out.println("Error al cargar la vista: " + e.getMessage());
             e.printStackTrace();

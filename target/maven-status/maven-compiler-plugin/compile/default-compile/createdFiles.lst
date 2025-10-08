@@ -4,12 +4,14 @@ org\gruponueve\controller\MunicipalidadController.class
 org\gruponueve\controller\UbicacionController.class
 org\gruponueve\model\Municipalidad.class
 org\gruponueve\model\Grupo.class
+org\gruponueve\controller\MenuSupervisorController.class
 org\gruponueve\system\Main.class
 org\gruponueve\model\Reporte.class
 org\gruponueve\model\Persona.class
 org\gruponueve\controller\PersonaController$EstadoFormulario.class
 org\gruponueve\controller\UsuarioController.class
 org\gruponueve\model\Rol.class
+org\gruponueve\controller\MenuPersonalController.class
 org\gruponueve\controller\InicioSesionController.class
 org\gruponueve\controller\ReporteController$EstadoFormulario.class
 org\gruponueve\database\Conexion.class
@@ -20,6 +22,7 @@ org\gruponueve\controller\UbicacionController$EstadoFormulario.class
 org\gruponueve\controller\MunicipalidadController$EstadoFormulario.class
 org\gruponueve\controller\ReporteController.class
 org\gruponueve\controller\UsuarioController$EstadoFormulario.class
+org\gruponueve\controller\MenuAlcaldeController.class
 org\gruponueve\model\Usuario.class
 org\gruponueve\model\Ubicacion.class
 org\gruponueve\controller\OrdenLimpiezaController.class
