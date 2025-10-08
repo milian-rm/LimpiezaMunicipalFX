@@ -7,18 +7,25 @@ package org.gruponueve.controller;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.gruponueve.database.Conexion;
+import org.gruponueve.model.Grupo;
+import org.gruponueve.model.OrdenLimpieza;
+import org.gruponueve.model.Persona;
 
 /**
  * FXML Controller class
@@ -26,31 +33,26 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author Roberto
  */
 
-/*
 public class AsignacionGrupoController extends PersonaController implements Initializable {
 
-    private TablaDetalleCompraController detalleCompraController;
+    private GrupoController grupoController;
 
-    private Main principal;
-
-    public void setPrincipal(Main principal) {
-        this.principal = principal;
-    }
-
-    @FXML
-    private TableView<DetalleCompra> tablaDetalleTemporal;
-    @FXML
-    private TableColumn colIdDetalleOrden, colIdOrden, colIdProducto, colCantidad, colPrecioUnitario;
-
-    private ObservableList<DetalleCompra> listaDetalleCompra = FXCollections.observableArrayList();
-
-    private int numeroOrdenActual;
+//    private Main principal;
+//
+//    public void setPrincipal(Main principal) {
+//        this.principal = principal;
+//    }
 
     @FXML
-    private Spinner<Integer> spCantidad;
+    private TableView<Grupo> tablaDetalleTemporal;
+    @FXML
+    private TableColumn colIdOrden, colIdPersonaG;
+
+    private ObservableList<Grupo> listaGrupo = FXCollections.observableArrayList();
 
     @FXML
-    private TextField txtNitCliente;
+    private ComboBox<OrdenLimpieza> cbxOrdenes;
+
 
     public void escenaMenuPrincipal() {
         principal.menuPrincipal();
@@ -58,134 +60,110 @@ public class AsignacionGrupoController extends PersonaController implements Init
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        super.inicializarProductos();
-        configurarColumnasCarrito();
+        super.inicializarPersonas();
+        configurarColumnasAsignacion();
+        cargarOrdenLimpieza();
+        
+        tablaDetalleTemporal.setItems(listaGrupo);
 
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 9999, 1);
-        spCantidad.setValueFactory(valueFactory);
-
-        tablaProductos.setOnMouseClicked(e -> {
-            if (tipoOperacion == Operacion.NINGUNA) {
-                Producto productoSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
-                if (productoSeleccionado != null) {
-                    int valorActualSpinner = spCantidad.getValue();
-
-                    SpinnerValueFactory<Integer> newFactory
-                            = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, productoSeleccionado.getStock(), valorActualSpinner);
-
-                    spCantidad.setValueFactory(newFactory);
-
-                    if (valorActualSpinner > productoSeleccionado.getStock()) {
-                        spCantidad.getValueFactory().setValue(1);
-                    }
-                }
+        tablaPersona.setOnMouseClicked(e -> {
+            if (estadoActual == EstadoFormulario.NINGUNA) {
+                Persona personaSeleccionado = tablaPersona.getSelectionModel().getSelectedItem();
+                
             }
         });
     }
 
-    private void configurarColumnasCarrito() {
-        colIdDetalleOrden.setCellValueFactory(new PropertyValueFactory<>("idDetalleOrden"));
+    private void configurarColumnasAsignacion() {
+        colIdPersonaG.setCellValueFactory(new PropertyValueFactory<>("idPersona"));
         colIdOrden.setCellValueFactory(new PropertyValueFactory<>("idOrden"));
-        colIdProducto.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
-        colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-        colPrecioUnitario.setCellValueFactory(new PropertyValueFactory<>("precioUnitario"));
-        tablaDetalleTemporal.setItems(listaDetalleCompra);
-    }
-
-    public void iniciarNuevaCompra(int idNuevaOrden) {
-        this.numeroOrdenActual = idNuevaOrden;
-        limpiarCarrito();
-        System.out.println("ComprarController: Iniciando nueva compra con ID de orden: " + idNuevaOrden);
+//        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombres"));
+//        colRol.setCellValueFactory(new PropertyValueFactory<>("rol"));
     }
 
     public void limpiarCarrito() {
-        listaDetalleCompra.clear();
+        listaGrupo.clear();
     }
 
-    private DetalleCompra obtenerDatos() {
-        Producto productoSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
-        if (productoSeleccionado == null) {
-            System.out.println("Por favor, selecciona un producto.");
-            return null;
-        }
-
-        int idDetalleOrden = 0;
-        int idOrden = numeroOrdenActual;
-        int idProducto = productoSeleccionado.getIdProducto();
-        int cantidad = 0;
-
+    private ArrayList<OrdenLimpieza> cargarModeloOrdenLimpieza(){
+        ArrayList<OrdenLimpieza> ordenes = new ArrayList<>();
         try {
-            cantidad = spCantidad.getValue();
-
-            if (cantidad <= 0 || cantidad > productoSeleccionado.getStock()) {
-                System.out.println("Cantidad inválida o excede el stock disponible. Stock: " + productoSeleccionado.getStock());
-                return null;
+            CallableStatement enunciado = Conexion.getInstancia().getConexion().
+                    prepareCall("call sp_ListarOrdenesLimpieza();");
+            ResultSet resultado = enunciado.executeQuery();
+            while(resultado.next()){
+                OrdenLimpieza o = new OrdenLimpieza(
+                        resultado.getInt(1), 
+                        resultado.getDate(2).toLocalDate(),
+                        resultado.getDate(3).toLocalDate(),
+                        resultado.getInt(4));
+                ordenes.add(o);
             }
-        } catch (ClassCastException e) {
-            System.out.println("Error: El valor del Spinner no es un número válido. " + e.getMessage());
-            return null;
-        } catch (NullPointerException e) {
-            System.out.println("Error: El Spinner de cantidad no está inicializado. " + e.getMessage());
+        } catch (SQLException a) {
+            a.printStackTrace();
+        }
+        return ordenes;
+    }
+    
+    private void cargarOrdenLimpieza(){
+        ObservableList<OrdenLimpieza> ordenes = FXCollections.observableArrayList(cargarModeloOrdenLimpieza());
+        cbxOrdenes.setItems(ordenes);
+    }
+    
+    private Grupo obtenerDatos() {
+        Persona personaSeleccionado = tablaPersona.getSelectionModel().getSelectedItem();
+        if (personaSeleccionado == null) {
+            System.out.println("Por favor, selecciona una persona.");
             return null;
         }
 
-        BigDecimal precio = productoSeleccionado.getPrecio();
-
-        return new DetalleCompra(
-                idDetalleOrden,
-                idOrden,
-                idProducto,
-                cantidad,
-                precio);
+        OrdenLimpieza ordenSeleccionada = cbxOrdenes.getSelectionModel().getSelectedItem();
+        if (ordenSeleccionada == null) {
+            System.out.println("Por favor, selecciona una orden.");
+            return null;
+        }
+        return new Grupo(
+            ordenSeleccionada.getIdOrden(),
+            personaSeleccionado.getIdPersona());
     }
-
+    
+    @FXML
     public void agregarDetalle() {
-        DetalleCompra detalleCompra = obtenerDatos();
-        if (detalleCompra == null) {
+        Grupo grupo = obtenerDatos();
+        if (grupo == null) {
             return;
         }
 
         try (CallableStatement cs = Conexion.getInstancia().getConexion()
-                .prepareCall("call sp_agregarDetalleCompra(?,?,?,?,?);")) {
-            cs.setInt(1, detalleCompra.getIdOrden());
-            cs.setInt(2, detalleCompra.getIdProducto());
-            cs.setInt(3, detalleCompra.getCantidad());
-            cs.setBigDecimal(4, detalleCompra.getPrecioUnitario());
-            cs.registerOutParameter(5, java.sql.Types.INTEGER);
-
+                .prepareCall("call sp_AgregarGrupoPersona(?,?);")) {
+            cs.setInt(1, grupo.getIdOrden());
+            cs.setInt(2, grupo.getIdPersona());
             cs.execute();
-
-            int idGenerado = cs.getInt(5);
-            detalleCompra.setIdDetalleOrden(idGenerado);
-
-            listaDetalleCompra.add(detalleCompra);
+            listaGrupo.add(grupo);
             tablaDetalleTemporal.refresh();
-            spCantidad.getValueFactory().setValue(1);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
     
+    @FXML
     public void eliminarDetalle() {
-         DetalleCompra detalleSeleccionado = tablaDetalleTemporal.getSelectionModel().getSelectedItem();
+         Grupo detalleSeleccionado = tablaDetalleTemporal.getSelectionModel().getSelectedItem();
          
         if(detalleSeleccionado == null) {
             System.out.println("Debe seleccionar un detalle para eliminar.");
             return;
         }
          
-        int idRegistroDetalle = detalleSeleccionado.getIdDetalleOrden();
+        int idRegistroDetalle = detalleSeleccionado.getIdGrupoPersonas();
 
         try (CallableStatement cs = Conexion.getInstancia().getConexion()
-                .prepareCall("call sp_eliminarDetalleCompra(?);")) {
+                .prepareCall("call sp_EliminarGrupoPersona(?);")) {
             cs.setInt(1, idRegistroDetalle);
             cs.execute();
 
-            listaDetalleCompra.remove(detalleSeleccionado);
+            listaGrupo.remove(detalleSeleccionado);
             tablaDetalleTemporal.refresh();
-            spCantidad.getValueFactory().setValue(1);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -194,31 +172,8 @@ public class AsignacionGrupoController extends PersonaController implements Init
 
     @FXML
     public void finalizarCompra() {
-        if (listaDetalleCompra.isEmpty()) {
-            System.out.println("El carrito esta vacio. No se puede finalizar la compra.");
-            return;
-        }
-
-        BigDecimal totalFactura = calcularTotalFactura();
-        String nitCliente = txtNitCliente.getText().trim();
-        if (nitCliente.isEmpty()) {
-            nitCliente = "C/F";
-        }
-
-        if (principal != null) {
-            principal.mostrarVistaFactura(listaDetalleCompra, totalFactura, numeroOrdenActual, nitCliente);
-        } else {
-            System.out.println("Error: No se ha establecido la referencia al Main.");
-        }
+        
     }
 
-    private BigDecimal calcularTotalFactura() {
-        BigDecimal total = BigDecimal.ZERO;
-        for (DetalleCompra detalle : listaDetalleCompra) {
-            total = total.add(detalle.getSubtotal());
-        }
-        return total;
-    }
     
 }
-*/
