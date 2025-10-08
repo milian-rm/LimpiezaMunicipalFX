@@ -63,4 +63,5 @@ public class MenuSupervisorController implements Initializable {
         principal.ubicacion();
     }
     
+    
 }
