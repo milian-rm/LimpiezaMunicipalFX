@@ -104,6 +104,11 @@
                         <Font name="System Bold" size="10.0" />
                      </font>
                   </Label>
+                  <ImageView fitHeight="108.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <image>
+                        <Image url="@../image/logo_municipalidad-Photoroom.png" />
+                     </image>
+                  </ImageView>
                </children>
             </GridPane>
          </center>

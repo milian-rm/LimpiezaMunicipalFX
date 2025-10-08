@@ -15,6 +15,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.gruponueve.controller.AsignacionGrupoController;
 import org.gruponueve.controller.GrupoController;
@@ -54,6 +55,8 @@ public class Main extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
+        Image logo = new Image("/image/logo-mini.png");
+        stage.getIcons().add(logo);
 //        FXMLLoader cargador = new FXMLLoader(getClass().getResource(
 //                "/view/AsignacionGrupoView.fxml"));
         //inicioSesion();
