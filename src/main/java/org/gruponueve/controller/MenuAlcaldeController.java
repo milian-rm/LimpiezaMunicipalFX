@@ -37,6 +37,7 @@ public class MenuAlcaldeController implements Initializable {
         // TODO
     }    
     
+    
     public void reporte(){
         principal.reporte();
     }
