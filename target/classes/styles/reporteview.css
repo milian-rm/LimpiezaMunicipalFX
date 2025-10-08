@@ -1,0 +1,21 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+.radio{
+    -fx-background-color: #98BD64;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-border-color: #595b59;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.radio:hover{
+    -fx-background-color: #7FA24F;
+
+}

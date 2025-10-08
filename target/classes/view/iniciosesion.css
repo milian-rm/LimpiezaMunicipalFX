@@ -1,0 +1,29 @@
+.botonIngresas {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-transition: all 2s ease;
+}
+
+.botonIngresas:hover {
+    -fx-background-color: #F7F0F0;  
+    -fx-cursor: hand;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.botonIngresas:pressed {
+    -fx-effect: dropshadow(gaussian, #ffbe0b, 10, 0.5, 0, 0);
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+.textofied {
+    -fx-background-color: #e0fae6;  
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #000000;
+}
+
+.fondo {
+    -fx-background-color: #e0fae6;
+}

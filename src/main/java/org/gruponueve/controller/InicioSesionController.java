@@ -35,6 +35,17 @@ public class InicioSesionController implements Initializable {
     public void setPrincipal(Main principal) {
         this.principal = principal;
     }
+    
+    public void menuPersonal(){
+        principal.menuPrincipalPersonal();
+    }
+    
+    public void menuSupervisor(){
+        principal.menuPrincipalSupervisor();
+    }
+    public void menuAlcalde(){
+        principal.menuPrincipalAlcalde();
+    }
 
     public void modeloUsuario() {
         user = new Usuario();
@@ -80,7 +91,6 @@ public class InicioSesionController implements Initializable {
     public void IngresarMenu() {
         user = new Usuario();
         //Comprobacion de credencial de contraseñas
-
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
                     .prepareCall("call sp_loginUsuario(?,?);");
@@ -91,12 +101,12 @@ public class InicioSesionController implements Initializable {
                 String mensaje = resultado.getString("mensaje");
 
                 if ("TRUE".equals(mensaje)) {
-                    modeloUsuario();
-                    cargarModeloPersona();
-                    int idP = persona.getIdPersona();
-                    //principal.MenuPrincipal();
+                    modeloUsuario(); 
+
+                    System.out.println("ID Usuario: " + user.getIdUsuario());
                     System.out.println("Bienvenido " + user.getCorreo());
-                    obtenerRol(idP);
+
+                    obtenerRol(user.getIdUsuario()); // ← CAMBIO AQUÍ: usa idUsuario
                 } else {
                     System.out.println("FALSE");
                     lblAdvertencia.setVisible(true);
@@ -122,12 +132,15 @@ public class InicioSesionController implements Initializable {
                 if ("Personal".equals(mensaje)) {
                     System.out.println("Usted es " + mensaje);
                     principal.setRol(mensaje);
+                    menuPersonal();
                 } else if("Supervisor".equals(mensaje)){
                     System.out.println("Usted es " + mensaje);
                     principal.setRol(mensaje);
+                    menuSupervisor();
                 } else if("Alcalde auxiliar".equals(mensaje)||"Alcalde municipal".equals(mensaje)){
                     System.out.println("Usted es " + mensaje);
                     principal.setRol(mensaje);
+                    menuAlcalde();
                 } else{
                     System.out.println("NO EXISTE");
                     principal.setRol(null);

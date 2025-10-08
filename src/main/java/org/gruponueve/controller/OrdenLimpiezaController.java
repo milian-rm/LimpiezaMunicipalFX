@@ -59,8 +59,26 @@ public class OrdenLimpiezaController implements Initializable {
     public void setPrincipal(Main principal) {
         this.principal = principal;
     }
+    
+    public void menuPersonal(){
+        principal.menuPrincipalPersonal();
+    }
+    
+    public void menuSupervisor(){
+        principal.menuPrincipalSupervisor();
+    }
+    public void menuAlcalde(){
+        principal.menuPrincipalAlcalde();
+    }
 
-    public void volver() {
+    public void volver(){
+        if(principal.getRol().equals("Personal")){
+            menuPersonal();
+        }else if(principal.getRol().equals("Supervisor")){
+            menuSupervisor();
+        }else if(principal.getRol().equals("Alcalde auxiliar")|| principal.getRol().equals("Alcalde municipal")){
+            menuAlcalde();
+        }
     }
 
     @Override
@@ -221,6 +239,11 @@ public class OrdenLimpiezaController implements Initializable {
     }
 
     public void estadoFormulario(EstadoFormulario est) {
+        if(principal.getRol().equals("Personal")){
+            btnNuevo.setDisable(true);
+            btnEliminar.setDisable(true);
+            btnEditar.setDisable(true);
+        }else{
         estadoActual = est;
         boolean activo = (est == EstadoFormulario.AGREGAR || est == EstadoFormulario.EDITAR);
 
@@ -238,6 +261,7 @@ public class OrdenLimpiezaController implements Initializable {
         btnSiguiente.setDisable(activo);
         btnNuevo.setText(activo ? "Guardar": "Agregar");
         btnEliminar.setText(activo ? "Cancelar":"Eliminar");
+        }
     }
 
     @FXML

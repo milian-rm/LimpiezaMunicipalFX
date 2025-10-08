@@ -64,6 +64,30 @@ public class AsignacionGrupoController extends PersonaController implements Init
     public Main getPrincipal(){
         return principal;
     }
+    
+    public void menuPersonal(){
+        principal.menuPrincipalPersonal();
+    }
+    
+    public void menuSupervisor(){
+        principal.menuPrincipalSupervisor();
+    }
+    public void menuAlcalde(){
+        principal.menuPrincipalAlcalde();
+    }
+    public void grupos(){
+        principal.grupo();
+    }
+
+    public void volver(){
+        if(principal.getRol().equals("Personal")){
+            menuPersonal();
+        }else if(principal.getRol().equals("Supervisor")){
+            menuSupervisor();
+        }else if(principal.getRol().equals("Alcalde auxiliar")|| principal.getRol().equals("Alcalde municipal")){
+            menuAlcalde();
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

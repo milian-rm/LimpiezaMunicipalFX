@@ -61,6 +61,17 @@ public class GrupoController implements Initializable {
     
     @FXML
     private Button btnBuscar, btnAnterior, btnSiguiente, btnAgregar, btnActualizar, btnEliminar;
+    
+    public void menuPersonal(){
+        principal.menuPrincipalPersonal();
+    }
+    
+    public void menuSupervisor(){
+        principal.menuPrincipalSupervisor();
+    }
+    public void menuAlcalde(){
+        principal.menuPrincipalAlcalde();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -70,6 +81,16 @@ public class GrupoController implements Initializable {
         cargarTablaModelos();
         // expresiones lambda el metodo 
         tablaGrupo.setOnMouseClicked(eventHandler -> cargarGrupoFormulario());
+    }
+    
+    public void volver(){
+        if(principal.getRol().equals("Personal")){
+            menuPersonal();
+        }else if(principal.getRol().equals("Supervisor")){
+            menuSupervisor();
+        }else if(principal.getRol().equals("Alcalde auxiliar")|| principal.getRol().equals("Alcalde municipal")){
+            menuAlcalde();
+        }
     }
     
     public void setPrincipal(Main principal) {

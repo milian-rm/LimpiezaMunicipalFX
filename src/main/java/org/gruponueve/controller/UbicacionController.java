@@ -60,7 +60,25 @@ public class UbicacionController implements Initializable {
         this.principal = principal;
     }
 
-    public void volver() {
+    public void menuPersonal(){
+        principal.menuPrincipalPersonal();
+    }
+    
+    public void menuSupervisor(){
+        principal.menuPrincipalSupervisor();
+    }
+    public void menuAlcalde(){
+        principal.menuPrincipalAlcalde();
+    }
+
+    public void volver(){
+        if(principal.getRol().equals("Personal")){
+            menuPersonal();
+        }else if(principal.getRol().equals("Supervisor")){
+            menuSupervisor();
+        }else if(principal.getRol().equals("Alcalde auxiliar")|| principal.getRol().equals("Alcalde municipal")){
+            menuAlcalde();
+        }
     }
 
     @Override

@@ -73,6 +73,27 @@ public class PersonaController implements Initializable{
     cargarPersonasVista();
     }
     
+    public void menuPersonal(){
+        principal.menuPrincipalPersonal();
+    }
+    
+    public void menuSupervisor(){
+        principal.menuPrincipalSupervisor();
+    }
+    public void menuAlcalde(){
+        principal.menuPrincipalAlcalde();
+    }
+
+    public void volver(){
+        if(principal.getRol().equals("Personal")){
+            menuPersonal();
+        }else if(principal.getRol().equals("Supervisor")){
+            menuSupervisor();
+        }else if(principal.getRol().equals("Alcalde auxiliar")|| principal.getRol().equals("Alcalde municipal")){
+            menuAlcalde();
+        }
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarColumnas();
@@ -124,7 +145,7 @@ public class PersonaController implements Initializable{
                             resultado.getString("apellidos"),
                             resultado.getString("telefono"),
                             resultado.getDouble("salario"),
-                            Rol.valueOf(resultado.getString("rol").toUpperCase()),
+                            Rol.fromString(resultado.getString("rol")),
                             resultado.getInt("idUsuario")));
                         }
         } catch (SQLException ex) {
@@ -251,15 +272,13 @@ public class PersonaController implements Initializable{
         modeloPersona = cargarModeloPersona();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                    .prepareCall("call sp_ActualizarPersona(?,?,?,?,?,?,?);");
+                    .prepareCall("call sp_ActualizarPersona(?,?,?,?,?,?);");
             enunciado.setInt(1, modeloPersona.getIdPersona());
             enunciado.setString(2, modeloPersona.getNombres());
             enunciado.setString(3, modeloPersona.getApellidos());
             enunciado.setString(4, modeloPersona.getTelefono());
             enunciado.setDouble(5, modeloPersona.getSalario());
-            enunciado.setString(6, String.valueOf(modeloPersona.getRol()));
-            enunciado.setInt(7, modeloPersona.getIdUsuario());
-            enunciado.execute();
+            enunciado.setString(6, modeloPersona.getRol().getValor()); 
             cargarTablaModelos();
         } catch (SQLException e) {
             System.out.println("Error al editar una persona");
@@ -298,6 +317,10 @@ public class PersonaController implements Initializable{
         txtTelefono.setDisable(!activo);
         spSalario.setDisable(!activo);
         cbxUsuarios.setDisable(!activo);
+        rbAlcaldeAux.setDisable(!activo);
+        rbAlcaldeMun.setDisable(!activo);
+        rbPersonal.setDisable(!activo);
+        rbSupervisor.setDisable(!activo);
         
         tablaPersona.setDisable(activo);
         btnBuscar.setDisable(activo);

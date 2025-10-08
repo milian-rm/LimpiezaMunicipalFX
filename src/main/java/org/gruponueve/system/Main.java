@@ -18,7 +18,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.gruponueve.controller.AsignacionGrupoController;
 import org.gruponueve.controller.GrupoController;
+import org.gruponueve.controller.MenuAlcaldeController;
 import org.gruponueve.controller.MenuPersonalController;
+import org.gruponueve.controller.MenuSupervisorController;
 import org.gruponueve.controller.PersonaController;
 import org.gruponueve.controller.ReporteController;
 import org.gruponueve.controller.UbicacionController;
@@ -61,7 +63,7 @@ public class Main extends Application{
         Scene escena = new Scene(raiz);
         stage.setScene(escena);
         stage.setMaximized(true);*/
-        menuPrincipalPersonal();
+        inicioSesion();
         stage.show();
     }
 
@@ -85,6 +87,14 @@ public class Main extends Application{
     
     public void menuPrincipalPersonal(){
         MenuPersonalController mpc = (MenuPersonalController) cambioEscena("MenuPersonalView.fxml").getController();
+        mpc.setPrincipal(this);
+    }
+    public void menuPrincipalSupervisor(){
+        MenuSupervisorController mpc = (MenuSupervisorController) cambioEscena("MenuSupervisorView.fxml").getController();
+        mpc.setPrincipal(this);
+    }
+    public void menuPrincipalAlcalde(){
+        MenuAlcaldeController mpc = (MenuAlcaldeController) cambioEscena("MenuAlcaldeView.fxml").getController();
         mpc.setPrincipal(this);
     }
     
