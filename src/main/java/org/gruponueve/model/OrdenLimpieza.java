@@ -1,17 +1,18 @@
 package org.gruponueve.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class OrdenLimpieza {
     private int idOrden;
-    private Date horarioInicio;
-    private Date horarioCierre;
+    private LocalDate horarioInicio;
+    private LocalDate horarioCierre;
     private int idReporte;
     
     public OrdenLimpieza() {
     }
 
-    public OrdenLimpieza(int idOrden, Date horarioInicio, Date horarioCierre, int idReporte) {
+    public OrdenLimpieza(int idOrden, LocalDate horarioInicio, LocalDate horarioCierre, int idReporte) {
         this.idOrden = idOrden;
         this.horarioInicio = horarioInicio;
         this.horarioCierre = horarioCierre;
@@ -26,19 +27,19 @@ public class OrdenLimpieza {
         this.idOrden = idOrden;
     }
 
-    public Date getHorarioInicio() {
+    public LocalDate getHorarioInicio() {
         return horarioInicio;
     }
 
-    public void setHorarioInicio(Date horarioInicio) {
+    public void setHorarioInicio(LocalDate horarioInicio) {
         this.horarioInicio = horarioInicio;
     }
 
-    public Date getHorarioCierre() {
+    public LocalDate getHorarioCierre() {
         return horarioCierre;
     }
 
-    public void setHorarioCierre(Date horarioCierre) {
+    public void setHorarioCierre(LocalDate horarioCierre) {
         this.horarioCierre = horarioCierre;
     }
 
@@ -48,12 +49,6 @@ public class OrdenLimpieza {
 
     public void setIdReporte(int idReporte) {
         this.idReporte = idReporte;
-    }
-
-    @Override
-    public String toString() {
-        return "OrdenLimpieza [idOrden=" + idOrden + ", horarioInicio=" + horarioInicio + ", horarioCierre="
-                + horarioCierre + ", idReporte=" + idReporte + "]";
     }
 
     
