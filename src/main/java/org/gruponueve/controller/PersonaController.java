@@ -17,6 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -27,6 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.gruponueve.database.Conexion;
 import org.gruponueve.model.Persona;
 import org.gruponueve.model.Rol;
+import org.gruponueve.model.Usuario;
 import org.gruponueve.system.Main;
 
 /**
@@ -46,7 +48,7 @@ public class PersonaController implements Initializable{
     
     @FXML
     protected TableColumn colId, colNombres, colApellidos, colTelefono,
-            colSalario, colRol;
+            colSalario, colRol, colIdUsuario;
     
     @FXML
     private TextField txtId, txtNombres, txtApellidos, txtTelefono,
@@ -54,6 +56,9 @@ public class PersonaController implements Initializable{
     
     @FXML
     private Spinner<Double> spSalario;
+    
+    @FXML
+    private ComboBox<Usuario> cbxUsuarios;
     
     @FXML
     private RadioButton rbPersonal, rbSupervisor, rbAlcaldeAux, 
@@ -66,6 +71,7 @@ public class PersonaController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
         configurarColumnas();
         configurarSpinner();
+        cargarUsuario();
         cargarTablaModelos();
         // expresiones lambda el metodo 
         tablaPersona.setOnMouseClicked(eventHandler -> cargarPersonaFormulario());
@@ -90,11 +96,12 @@ public class PersonaController implements Initializable{
         colTelefono.setCellValueFactory(new PropertyValueFactory<Persona, String>("telefono"));
         colSalario.setCellValueFactory(new PropertyValueFactory<Persona, Double>("salario"));
         colRol.setCellValueFactory(new PropertyValueFactory<Persona, Rol>("rol"));
+        colIdUsuario.setCellValueFactory(new PropertyValueFactory<Persona, Integer>("idUsuario"));
     }
     
     private void configurarSpinner(){
         SpinnerValueFactory<Double> valor = 
-                new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000, 0);
+                new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000000, 0, 100);
         spSalario.setValueFactory(valor);
     }
     
@@ -111,7 +118,8 @@ public class PersonaController implements Initializable{
                             resultado.getString("apellidos"),
                             resultado.getString("telefono"),
                             resultado.getDouble("salario"),
-                            Rol.valueOf(resultado.getString("rol").toUpperCase())));
+                            Rol.valueOf(resultado.getString("rol").toUpperCase()),
+                            resultado.getInt("idUsuario")));
                         }
         } catch (SQLException ex) {
             System.out.println("Error al cargar de MySQL las Personas");
@@ -126,8 +134,15 @@ public class PersonaController implements Initializable{
             txtNombres.setText(persona.getNombres());
             txtApellidos.setText(persona.getApellidos());
             txtTelefono.setText(persona.getTelefono());
+            spSalario.getValueFactory().setValue(persona.getSalario());
+
+            for (Usuario u: cbxUsuarios.getItems()) {
+                if (u.getIdUsuario()== persona.getIdUsuario()) {
+                    cbxUsuarios.setValue(u);
+                    break;
+                }
+            }
         }
-        spSalario.getValueFactory().setValue(persona.getSalario());
         
         if (String.valueOf(persona.getRol()).equalsIgnoreCase("PERSONAL")) {
             rbPersonal.setSelected(true);
@@ -151,6 +166,9 @@ public class PersonaController implements Initializable{
     private Persona cargarModeloPersona(){
         int codigoPersona = txtId.getText().isEmpty() ? 0 : Integer.parseInt(txtId.getText());
         
+        Usuario usuarioSeleccionado = cbxUsuarios.getSelectionModel().getSelectedItem();
+        int codigoUsuario = usuarioSeleccionado != null ? usuarioSeleccionado.getIdUsuario(): 0;
+        
         String rol = "";
         if (rbPersonal.isSelected()) {
             rol = "PERSONAL";
@@ -167,20 +185,45 @@ public class PersonaController implements Initializable{
                 txtApellidos.getText(), 
                 txtTelefono.getText(), 
                 spSalario.getValue(),
-                Rol.valueOf(rol));
+                Rol.valueOf(rol),
+                codigoUsuario);
+    }
+    
+    private ArrayList<Usuario> cargarModeloUsuario(){
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        try {
+            CallableStatement enunciado = Conexion.getInstancia().getConexion().
+                    prepareCall("call sp_ListarUsuarios();");
+            ResultSet resultado = enunciado.executeQuery();
+            while(resultado.next()){
+                Usuario u = new Usuario(
+                        resultado.getInt(1), 
+                        resultado.getString(2),
+                        resultado.getString(3));
+                usuarios.add(u);
+            }
+        } catch (SQLException a) {
+            a.printStackTrace();
+        }
+        return usuarios;
     }
    
+    private void cargarUsuario(){
+        ObservableList<Usuario> usuarios = FXCollections.observableArrayList(cargarModeloUsuario());
+        cbxUsuarios.setItems(usuarios);
+    }
     
     
     public void agregarModelo(){
         modeloPersona = cargarModeloPersona();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion().
-                    prepareCall("call sp_AgregarPersona(?,?,?,?);");
+                    prepareCall("call sp_AgregarPersona(?,?,?,?,?);");
             enunciado.setString(1, modeloPersona.getNombres());
             enunciado.setString(2, modeloPersona.getApellidos());
             enunciado.setString(3, modeloPersona.getTelefono());
             enunciado.setDouble(4, modeloPersona.getSalario());
+            enunciado.setInt(5, modeloPersona.getIdUsuario());
             int registrosAgregados = enunciado.executeUpdate();
             if(registrosAgregados > 0){
                 System.out.println("Persona agregada");
@@ -197,13 +240,14 @@ public class PersonaController implements Initializable{
         modeloPersona = cargarModeloPersona();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                    .prepareCall("call sp_ActualizarPersona(?,?,?,?,?,?);");
+                    .prepareCall("call sp_ActualizarPersona(?,?,?,?,?,?,?);");
             enunciado.setInt(1, modeloPersona.getIdPersona());
             enunciado.setString(2, modeloPersona.getNombres());
             enunciado.setString(3, modeloPersona.getApellidos());
             enunciado.setString(4, modeloPersona.getTelefono());
             enunciado.setDouble(5, modeloPersona.getSalario());
             enunciado.setString(6, String.valueOf(modeloPersona.getRol()));
+            enunciado.setInt(7, modeloPersona.getIdUsuario());
             enunciado.execute();
             cargarTablaModelos();
         } catch (SQLException e) {
@@ -232,6 +276,8 @@ public class PersonaController implements Initializable{
         txtApellidos.clear();
         txtTelefono.clear();
         spSalario.getValueFactory().setValue(reinicio); 
+        cbxUsuarios.getSelectionModel().clearSelection(); 
+
     }
     private void actualizarEstadoFormulario(EstadoFormulario estado){
         estadoActual = estado;
@@ -240,6 +286,7 @@ public class PersonaController implements Initializable{
         txtApellidos.setDisable(!activo);
         txtTelefono.setDisable(!activo);
         spSalario.setDisable(!activo);
+        cbxUsuarios.setDisable(!activo);
         
         tablaPersona.setDisable(activo);
         btnBuscar.setDisable(activo);

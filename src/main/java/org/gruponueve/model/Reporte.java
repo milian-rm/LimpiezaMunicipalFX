@@ -9,12 +9,12 @@ package org.gruponueve.model;
  * @author informatica
  */
 public class Reporte {
-    int idReporte, idUbicación;
+    int idReporte, idUbicacion;
     String nombrePersona, telefono, descripcion, estado;
 
-    public Reporte(int idReporte, int idUbicación, String nombrePersona, String telefono, String descripcion, String estado) {
+    public Reporte(int idReporte, int idUbicacion, String nombrePersona, String telefono, String descripcion, String estado) {
         this.idReporte = idReporte;
-        this.idUbicación = idUbicación;
+        this.idUbicacion = idUbicacion;
         this.nombrePersona = nombrePersona;
         this.telefono = telefono;
         this.descripcion = descripcion;
@@ -32,12 +32,12 @@ public class Reporte {
         this.idReporte = idReporte;
     }
 
-    public int getIdUbicación() {
-        return idUbicación;
+    public int getIdUbicacion() {
+        return idUbicacion;
     }
 
-    public void setIdUbicación(int idUbicación) {
-        this.idUbicación = idUbicación;
+    public void setIdUbicacion(int idUbicacion) {
+        this.idUbicacion = idUbicacion;
     }
 
     public String getNombrePersona() {

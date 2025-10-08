@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1500.0" styleClass="fondo" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.gruponueve.controller.PersonaController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1500.0" styleClass="fondo" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.gruponueve.controller.ReporteController">
    <stylesheets>
       <URL value="@municipalidadview.css" />
    </stylesheets>
@@ -97,7 +97,7 @@
                   <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#cancelarEliminar" text="Eliminar" GridPane.columnIndex="5" GridPane.rowIndex="4" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción:  " GridPane.columnIndex="3" />
                   <TextField fx:id="txtDescripcion" disable="true" prefHeight="102.0" prefWidth="241.0" GridPane.columnIndex="4" />
-                  <ComboBox fx:id="cbxUbicaciones" prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <ComboBox fx:id="cbxUbicaciones" disable="true" prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </bottom>
@@ -152,7 +152,7 @@
                      </rowConstraints>
                      <children>
                         <TextField fx:id="txtBuscar" />
-                        <Button fx:id="btnBuscar" mnemonicParsing="false" GridPane.columnIndex="1">
+                        <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#buscarPorNombre" GridPane.columnIndex="1">
                            <graphic>
                               <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

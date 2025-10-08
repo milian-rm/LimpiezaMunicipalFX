@@ -26,6 +26,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.gruponueve.database.Conexion;
 import org.gruponueve.model.Reporte;
 import org.gruponueve.model.Rol;
+import org.gruponueve.model.Ubicacion;
 import org.gruponueve.system.Main;
 
 /**
@@ -65,6 +66,7 @@ public class ReporteController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarColumnas();
+        cargarUbicacion();
         cargarTablaModelos();
         // expresiones lambda el metodo 
         tablaReporte.setOnMouseClicked(eventHandler -> cargarReporteFormulario());
@@ -95,7 +97,7 @@ public class ReporteController implements Initializable {
         ArrayList<Reporte> reportes = new ArrayList<>();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                    .prepareCall("call sp_ListarReporte();");
+                    .prepareCall("call sp_ListarReportes();");
             ResultSet resultado = enunciado.executeQuery();
             while(resultado.next()){
                 reportes.add(new Reporte(
@@ -121,7 +123,7 @@ public class ReporteController implements Initializable {
             txtDescripcion.setText(reporte.getDescripcion());
         }
         for (Ubicacion u: cbxUbicaciones.getItems()) {
-            if (u.getIdModelo()== reporte.getIdUbicación()) {
+            if (u.getIdUbicacion()== reporte.getIdUbicacion()) {
                 cbxUbicaciones.setValue(u);
                 break;
             }
@@ -148,7 +150,7 @@ public class ReporteController implements Initializable {
         int codigoReporte = txtId.getText().isEmpty() ? 0 : Integer.parseInt(txtId.getText());
         
         Ubicacion ubicacionSeleccionada = cbxUbicaciones.getSelectionModel().getSelectedItem();
-        int codigoUbicacion = ubicacionSeleccionada != null ? ubicacionSeleccionada.getIdModelo(): 0;
+        int codigoUbicacion = ubicacionSeleccionada != null ? ubicacionSeleccionada.getIdUbicacion(): 0;
         
         String estado = "";
         if (rbPendiente.isSelected()) {
@@ -204,7 +206,7 @@ public class ReporteController implements Initializable {
             enunciado.setString(2, modeloReporte.getTelefono());
             enunciado.setString(3, modeloReporte.getDescripcion());
             enunciado.setString(4, modeloReporte.getEstado());
-            enunciado.setInt(5, modeloReporte.getIdUbicación());
+            enunciado.setInt(5, modeloReporte.getIdUbicacion());
             int registrosAgregados = enunciado.executeUpdate();
             if(registrosAgregados > 0){
                 System.out.println("Reporte agregado");
@@ -227,7 +229,7 @@ public class ReporteController implements Initializable {
             enunciado.setString(3, modeloReporte.getTelefono());
             enunciado.setString(4, modeloReporte.getDescripcion());
             enunciado.setString(5, modeloReporte.getEstado());
-            enunciado.setInt(6, modeloReporte.getIdUbicación());
+            enunciado.setInt(6, modeloReporte.getIdUbicacion());
             enunciado.execute();
             cargarTablaModelos();
         } catch (SQLException e) {
