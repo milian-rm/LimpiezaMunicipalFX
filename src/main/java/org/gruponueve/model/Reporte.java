@@ -71,6 +71,12 @@ public class Reporte {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    @Override
+    public String toString() {
+        return "Reporte [idReporte=" + idReporte + ", idUbicacion=" + idUbicacion + ", nombrePersona=" + nombrePersona
+                + ", telefono=" + telefono + ", descripcion=" + descripcion + ", estado=" + estado + "]";
+    }
     
     
 }

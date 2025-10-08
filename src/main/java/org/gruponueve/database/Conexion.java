@@ -15,9 +15,9 @@ import java.sql.SQLException;
 public class Conexion {
     private static Conexion instancia;
     private Connection conexion;
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/LimpiezaMunicipal_db?useSSL=false";
-    private static final String USER = "admin";
-    private static final String PASSWORD = "kinal123";
+    private static final String URL = "jdbc:mysql://127.0.0.1:3306/LimpiezaMunicipal_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    private static final String USER = "root";
+    private static final String PASSWORD = "jose";
     private static final String DRIVER = "com.mysql.jdbc.Driver";
     
     public Conexion(){

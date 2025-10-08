@@ -63,9 +63,9 @@
                   <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <TextField fx:id="txtId" disable="true" prefHeight="25.0" prefWidth="128.0" GridPane.columnIndex="2" />
-                  <TextField fx:id="txtNombre" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <TextField fx:id="txtTelefono" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <TextField fx:id="txtId" disable="true" prefHeight="25.0" prefWidth="128.0" styleClass="field" GridPane.columnIndex="2" />
+                  <TextField fx:id="txtNombre" disable="true" styleClass="field" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtTelefono" disable="true" styleClass="field" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <GridPane GridPane.columnIndex="4" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -76,13 +76,13 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <RadioButton fx:id="rbPendiente" disable="true" mnemonicParsing="false" text="Pendiente">
+                        <RadioButton fx:id="rbPendiente" disable="true" mnemonicParsing="false" styleClass="radio" stylesheets="@../styles/reporteview.css" text="Pendiente">
                            <toggleGroup>
                               <ToggleGroup fx:id="rol" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="rbTerminado" disable="true" mnemonicParsing="false" text="Terminado" toggleGroup="$rol" GridPane.rowIndex="1" />
-                        <RadioButton fx:id="rbEnProceso" disable="true" mnemonicParsing="false" prefHeight="17.0" prefWidth="115.0" text="En Proceso" toggleGroup="$rol" GridPane.columnIndex="1" />
+                        <RadioButton fx:id="rbTerminado" disable="true" mnemonicParsing="false" styleClass="radio" stylesheets="@../styles/reporteview.css" text="Terminado" toggleGroup="$rol" GridPane.rowIndex="1" />
+                        <RadioButton fx:id="rbEnProceso" disable="true" mnemonicParsing="false" prefHeight="17.0" prefWidth="115.0" styleClass="radio" stylesheets="@../styles/reporteview.css" text="En Proceso" toggleGroup="$rol" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID:  " GridPane.columnIndex="1" />
@@ -90,14 +90,14 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Teléfono:  " GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Estado:  " GridPane.columnIndex="3" GridPane.rowIndex="1" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ubicación:  " GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                  <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#btnVolverAction" text="&lt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#btnSiguienteAction" text="&gt;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Button fx:id="btnAgregar" mnemonicParsing="false" onAction="#agregarReporte" text="Agregar" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                  <Button fx:id="btnActualizar" mnemonicParsing="false" onAction="#editarReporte" text="Actualizar" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#cancelarEliminar" text="Eliminar" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                  <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#btnVolverAction" prefHeight="35.0" prefWidth="55.0" styleClass="boton" text="&lt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#btnSiguienteAction" prefHeight="35.0" prefWidth="55.0" styleClass="boton" text="&gt;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <Button fx:id="btnAgregar" mnemonicParsing="false" onAction="#agregarReporte" prefHeight="45.0" prefWidth="105.0" styleClass="boton" text="Agregar" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <Button fx:id="btnActualizar" mnemonicParsing="false" onAction="#editarReporte" prefHeight="45.0" prefWidth="105.0" styleClass="boton" text="Actualizar" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#cancelarEliminar" prefHeight="45.0" prefWidth="105.0" styleClass="boton" text="Eliminar" GridPane.columnIndex="5" GridPane.rowIndex="4" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción:  " GridPane.columnIndex="3" />
-                  <TextField fx:id="txtDescripcion" disable="true" prefHeight="102.0" prefWidth="241.0" GridPane.columnIndex="4" />
-                  <ComboBox fx:id="cbxUbicaciones" disable="true" prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <TextField fx:id="txtDescripcion" disable="true" prefHeight="102.0" prefWidth="241.0" styleClass="field" GridPane.columnIndex="4" />
+                  <ComboBox fx:id="cbxUbicaciones" disable="true" prefHeight="38.0" prefWidth="266.0" styleClass="field" GridPane.columnIndex="4" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </bottom>
@@ -141,7 +141,7 @@
                         <Image url="@../image/logo_municipalidad-Photoroom.png" />
                      </image>
                   </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reporte" GridPane.columnIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="texto" text="Reporte" GridPane.columnIndex="3" />
                   <GridPane GridPane.columnIndex="2">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="327.0" minWidth="10.0" prefWidth="327.0" />
@@ -151,8 +151,8 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <TextField fx:id="txtBuscar" />
-                        <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#buscarPorNombre" GridPane.columnIndex="1">
+                        <TextField fx:id="txtBuscar" styleClass="field" />
+                        <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#buscarPorNombre" prefHeight="50.0" prefWidth="60.0" styleClass="boton" GridPane.columnIndex="1">
                            <graphic>
                               <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
