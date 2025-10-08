@@ -28,7 +28,7 @@ import org.gruponueve.database.Conexion;
 import org.gruponueve.model.Grupo;
 import org.gruponueve.model.Persona;
 import org.gruponueve.model.Rol;
-import org.gruponueve.model.Orden;
+import org.gruponueve.model.OrdenLimpieza;
 import org.gruponueve.system.Main;
 
 /**
@@ -54,7 +54,7 @@ public class GrupoController implements Initializable {
     private TextField txtId, txtBuscar;
     
     @FXML
-    private ComboBox<Orden> cbxOrdenes;
+    private ComboBox<OrdenLimpieza> cbxOrdenes;
     
     @FXML
     private ComboBox<Persona> cbxPersonas;
@@ -85,7 +85,7 @@ public class GrupoController implements Initializable {
     }
 
     private void configurarColumnas(){
-        colId.setCellValueFactory(new PropertyValueFactory<Grupo, Integer>("idGrupo"));
+        colId.setCellValueFactory(new PropertyValueFactory<Grupo, Integer>("idGrupoPersonas"));
         colIdOrden.setCellValueFactory(new PropertyValueFactory<Grupo, Integer>("idOrden"));
         colIdPersona.setCellValueFactory(new PropertyValueFactory<Grupo, Integer>("idPersona"));
       
@@ -95,11 +95,11 @@ public class GrupoController implements Initializable {
         ArrayList<Grupo> grupos = new ArrayList<>();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                    .prepareCall("call sp_ListarGrupo();");
+                    .prepareCall("call sp_ListarGrupoPersonas();");
             ResultSet resultado = enunciado.executeQuery();
             while(resultado.next()){
                 grupos.add(new Grupo(
-                            resultado.getInt("idGrupo"),
+                            resultado.getInt("idGrupoPersonas"),
                             resultado.getInt("idOrden"),                            
                             resultado.getInt("idPersona")));
                         }
@@ -113,7 +113,7 @@ public class GrupoController implements Initializable {
         Grupo grupo = tablaGrupo.getSelectionModel().getSelectedItem();
         if (grupo != null) {
             txtId.setText(String.valueOf(grupo.getIdGrupoPersonas()));
-            for (Orden o: cbxOrdenes.getItems()) {
+            for (OrdenLimpieza o: cbxOrdenes.getItems()) {
                 if (o.getIdOrden()== grupo.getIdOrden()) {
                     cbxOrdenes.setValue(o);
                     break;
@@ -139,7 +139,7 @@ public class GrupoController implements Initializable {
     private Grupo cargarModeloGrupo(){
         int codigoGrupo = txtId.getText().isEmpty() ? 0 : Integer.parseInt(txtId.getText());
         
-        Orden ordenSeleccionada = cbxOrdenes.getSelectionModel().getSelectedItem();
+        OrdenLimpieza ordenSeleccionada = cbxOrdenes.getSelectionModel().getSelectedItem();
         int codigoOrden = ordenSeleccionada != null ? ordenSeleccionada.getIdOrden(): 0;
         
         Persona personaSeleccionada = cbxPersonas.getSelectionModel().getSelectedItem();
@@ -151,17 +151,18 @@ public class GrupoController implements Initializable {
                 codigoPersona);
     }
     
-    private ArrayList<Orden> cargarModeloOrden(){
-        ArrayList<Orden> ordenes = new ArrayList<>();
+    private ArrayList<OrdenLimpieza> cargarModeloOrden(){
+        ArrayList<OrdenLimpieza> ordenes = new ArrayList<>();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion().
-                    prepareCall("call sp_ListarOrdenes();");
+                    prepareCall("call sp_ListarOrdenesLimpieza();");
             ResultSet resultado = enunciado.executeQuery();
             while(resultado.next()){
-                Orden o = new Orden(
+                OrdenLimpieza o = new OrdenLimpieza(
                         resultado.getInt(1), 
-                        resultado.getString(2),
-                        resultado.getString(3));
+                        resultado.getDate(2).toLocalDate(),
+                        resultado.getDate(3).toLocalDate(),
+                        resultado.getInt(4));
                 ordenes.add(o);
             }
         } catch (SQLException a) {
@@ -171,7 +172,7 @@ public class GrupoController implements Initializable {
     }
    
     private void cargarOrden(){
-        ObservableList<Orden> ordenes = FXCollections.observableArrayList(cargarModeloOrden());
+        ObservableList<OrdenLimpieza> ordenes = FXCollections.observableArrayList(cargarModeloOrden());
         cbxOrdenes.setItems(ordenes);
     }
     
@@ -179,7 +180,7 @@ public class GrupoController implements Initializable {
         ArrayList<Persona> personas = new ArrayList<>();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion().
-                    prepareCall("call sp_ListarPersonas();");
+                    prepareCall("call sp_ListarPersona();");
             ResultSet resultado = enunciado.executeQuery();
             while(resultado.next()){
                 Persona p = new Persona(
@@ -188,7 +189,7 @@ public class GrupoController implements Initializable {
                         resultado.getString(3),
                         resultado.getString(4),
                         resultado.getDouble(5),
-                        Rol.valueOf(resultado.getString(6)),
+                        Rol.valueOf(resultado.getString(6).toUpperCase().replace(" ", "_")),
                         resultado.getInt(7));
                 personas.add(p);
             }
@@ -208,7 +209,7 @@ public class GrupoController implements Initializable {
         modeloGrupo = cargarModeloGrupo();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion().
-                    prepareCall("call sp_AgregarGrupo(?,?);");
+                    prepareCall("call sp_AgregarGrupoPersona(?,?);");
             enunciado.setInt(1, modeloGrupo.getIdOrden());
             enunciado.setInt(2, modeloGrupo.getIdPersona());
             int registrosAgregados = enunciado.executeUpdate();
@@ -227,7 +228,7 @@ public class GrupoController implements Initializable {
         modeloGrupo = cargarModeloGrupo();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                    .prepareCall("call sp_ActualizarGrupo(?,?,?);");
+                    .prepareCall("call sp_ActualizarGrupoPersona(?,?,?);");
             enunciado.setInt(1, modeloGrupo.getIdGrupoPersonas());
             enunciado.setInt(2, modeloGrupo.getIdOrden());
             enunciado.setInt(3, modeloGrupo.getIdPersona());
@@ -243,7 +244,7 @@ public class GrupoController implements Initializable {
         modeloGrupo = tablaGrupo.getSelectionModel().getSelectedItem();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                    .prepareCall("call sp_EliminarGrupo(?);");
+                    .prepareCall("call sp_EliminarGrupoPersona(?);");
             enunciado.setInt(1, modeloGrupo.getIdGrupoPersonas());
             enunciado.execute();
             cargarTablaModelos();
@@ -329,16 +330,25 @@ public class GrupoController implements Initializable {
     }
     @FXML
     private void buscarPorNombre(){
-        String nombre = txtBuscar.getText().toLowerCase();
-        ArrayList<Grupo> resultadoBusqueda = new ArrayList<>();
-        for(Grupo m:listaGrupos){
-            if(m.getNombres().toLowerCase().contains(nombre)){
-                resultadoBusqueda.add(m);
+        String dato = txtBuscar.getText().toLowerCase();
+        ObservableList<Grupo> resultadoBusqueda = FXCollections.observableArrayList();
+        if (dato.isEmpty()) {
+            tablaGrupo.setItems(FXCollections.observableArrayList(listaGrupos));
+        }else{
+            try {
+                int codigo = Integer.parseInt(dato);
+                for (Grupo f : listaGrupos) {
+                    if (f.getIdGrupoPersonas()== codigo) {
+                        resultadoBusqueda.add(f);
+                    }
+                }
+            } catch (Exception a) {
             }
-        }
-        tablaGrupo.setItems(FXCollections.observableArrayList(resultadoBusqueda));
-        if(!resultadoBusqueda.isEmpty()){
-            tablaGrupo.getSelectionModel().selectFirst();
+
+            tablaGrupo.setItems(resultadoBusqueda);
+            if (!resultadoBusqueda.isEmpty()) {
+                tablaGrupo.getSelectionModel().selectFirst();
+            }
         }
     }
     

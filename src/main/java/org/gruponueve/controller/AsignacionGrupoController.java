@@ -25,6 +25,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
  *
  * @author Roberto
  */
+
+/*
 public class AsignacionGrupoController extends PersonaController implements Initializable {
 
     private TablaDetalleCompraController detalleCompraController;
@@ -219,3 +221,4 @@ public class AsignacionGrupoController extends PersonaController implements Init
     }
     
 }
+*/
