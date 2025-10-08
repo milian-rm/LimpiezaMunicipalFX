@@ -60,19 +60,19 @@
                   <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <TextField fx:id="txtId" disable="true" GridPane.columnIndex="2" />
+                  <TextField fx:id="txtId" disable="true" styleClass="field" GridPane.columnIndex="2" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID:  " GridPane.columnIndex="1" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Horario Inicio: " GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Horario Cierre: " GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#btnAnteriorAction" text="&lt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#btnSiguienteAction" text="&gt;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevaOrden" text="Agregar" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                  <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editarOrden" text="Actualizar" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#cancelarEliminar" text="Eliminar" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                  <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#btnAnteriorAction" prefHeight="35.0" prefWidth="55.0" styleClass="boton" text="&lt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#btnSiguienteAction" prefHeight="35.0" prefWidth="55.0" styleClass="boton" text="&gt;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevaOrden" prefHeight="40.0" prefWidth="95.0" styleClass="boton" text="Agregar" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editarOrden" prefHeight="45.0" prefWidth="105.0" styleClass="boton" text="Actualizar" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#cancelarEliminar" prefHeight="45.0" prefWidth="105.0" styleClass="boton" text="Eliminar" GridPane.columnIndex="5" GridPane.rowIndex="4" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reporte: " GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <DatePicker fx:id="dpHorarioI" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <DatePicker fx:id="dpHorarioC" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <ComboBox fx:id="cbxReporte" disable="true" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <DatePicker fx:id="dpHorarioI" disable="true" styleClass="field" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <DatePicker fx:id="dpHorarioC" disable="true" styleClass="field" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <ComboBox fx:id="cbxReporte" disable="true" prefHeight="38.0" prefWidth="238.0" styleClass="field" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </bottom>
@@ -116,7 +116,7 @@
                         <Image url="@../image/logo_municipalidad-Photoroom.png" />
                      </image>
                   </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Persona" GridPane.columnIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="texto" text="ORDEN LIMPIEZA" GridPane.columnIndex="3" />
                   <GridPane GridPane.columnIndex="2">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="327.0" minWidth="10.0" prefWidth="327.0" />
@@ -126,8 +126,8 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField fx:id="txtBuscar" promptText="Buscar..." />
-                        <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#BuscarTabla" GridPane.columnIndex="1">
+                        <TextField fx:id="txtBuscar" promptText="Buscar..." styleClass="field" />
+                        <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#BuscarTabla" prefHeight="50.0" prefWidth="60.0" styleClass="boton" GridPane.columnIndex="1">
                            <graphic>
                               <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

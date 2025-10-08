@@ -35,7 +35,7 @@ public class Main extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        ordenLimpieza();
+        municipalidad();
         /*FXMLLoader cargador = new FXMLLoader(getClass().getResource(
                 "/view/PersonaView.fxml"));
         Parent raiz = cargador.load();

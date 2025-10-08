@@ -65,10 +65,10 @@
                   <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <TextField fx:id="txtId" disable="true" GridPane.columnIndex="2" />
-                  <TextField fx:id="txtNombres" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <TextField fx:id="txtApellidos" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <Spinner fx:id="spSalario" disable="true" editable="true" GridPane.columnIndex="4" />
+                  <TextField fx:id="txtId" disable="true" styleClass="field" GridPane.columnIndex="2" />
+                  <TextField fx:id="txtNombres" disable="true" styleClass="field" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtApellidos" disable="true" styleClass="field" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Spinner fx:id="spSalario" disable="true" editable="true" stylesheets="@../styles/personaview.css" GridPane.columnIndex="4" />
                   <GridPane GridPane.columnIndex="4" GridPane.rowIndex="1">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -79,13 +79,13 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <RadioButton fx:id="rbPersonal" disable="true" mnemonicParsing="false" text="Personal">
+                        <RadioButton fx:id="rbPersonal" disable="true" mnemonicParsing="false" styleClass="radio" stylesheets="@../styles/personaview.css" text="Personal">
                            <toggleGroup>
                               <ToggleGroup fx:id="rol" />
                            </toggleGroup></RadioButton>
-                        <RadioButton fx:id="rbSupervisor" disable="true" mnemonicParsing="false" text="Supervisor" toggleGroup="$rol" GridPane.rowIndex="1" />
-                        <RadioButton fx:id="rbAlcaldeAux" disable="true" mnemonicParsing="false" prefHeight="17.0" prefWidth="115.0" text="Alcalde Auxiliar" toggleGroup="$rol" GridPane.columnIndex="1" />
-                        <RadioButton fx:id="rbAlcaldeMun" disable="true" mnemonicParsing="false" prefHeight="17.0" prefWidth="126.0" text="Alcalde Municipal" toggleGroup="$rol" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <RadioButton fx:id="rbSupervisor" disable="true" mnemonicParsing="false" styleClass="radio" stylesheets="@../styles/personaview.css" text="Supervisor" toggleGroup="$rol" GridPane.rowIndex="1" />
+                        <RadioButton fx:id="rbAlcaldeAux" disable="true" mnemonicParsing="false" prefHeight="17.0" prefWidth="115.0" styleClass="radio" stylesheets="@../styles/personaview.css" text="Alcalde Auxiliar" toggleGroup="$rol" GridPane.columnIndex="1" />
+                        <RadioButton fx:id="rbAlcaldeMun" disable="true" mnemonicParsing="false" prefHeight="17.0" prefWidth="126.0" styleClass="radio" stylesheets="@../styles/personaview.css" text="Alcalde Municipal" toggleGroup="$rol" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID:  " GridPane.columnIndex="1" />
@@ -93,15 +93,15 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Apellidos:  " GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Salario:  " GridPane.columnIndex="3" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Rol:  " GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#btnVolverAction" text="&lt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#btnSiguienteAction" text="&gt;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Button fx:id="btnAgregar" mnemonicParsing="false" onAction="#agregarPersona" text="Agregar" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                  <Button fx:id="btnActualizar" mnemonicParsing="false" onAction="#editarPersona" text="Actualizar" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#cancelarEliminar" text="Eliminar" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                  <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#btnVolverAction" prefHeight="35.0" prefWidth="55.0" styleClass="boton" text="&lt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#btnSiguienteAction" prefHeight="35.0" prefWidth="55.0" styleClass="boton" text="&gt;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <Button fx:id="btnAgregar" mnemonicParsing="false" onAction="#agregarPersona" prefHeight="45.0" prefWidth="105.0" styleClass="boton" text="Agregar" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <Button fx:id="btnActualizar" mnemonicParsing="false" onAction="#editarPersona" prefHeight="45.0" prefWidth="105.0" styleClass="boton" text="Actualizar" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#cancelarEliminar" prefHeight="45.0" prefWidth="105.0" styleClass="boton" text="Eliminar" GridPane.columnIndex="5" GridPane.rowIndex="4" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Teléfono:  " GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField fx:id="txtTelefono" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <TextField fx:id="txtTelefono" disable="true" styleClass="field" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Usuario:" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                  <ComboBox fx:id="cbxUsuarios" disable="true" prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <ComboBox fx:id="cbxUsuarios" disable="true" prefWidth="150.0" styleClass="field" GridPane.columnIndex="4" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </bottom>
@@ -145,7 +145,7 @@
                         <Image url="@../image/logo_municipalidad-Photoroom.png" />
                      </image>
                   </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Persona" GridPane.columnIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="texto" text="Persona" GridPane.columnIndex="3" />
                   <GridPane GridPane.columnIndex="2">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="327.0" minWidth="10.0" prefWidth="327.0" />
@@ -155,8 +155,8 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField fx:id="txtBuscar" />
-                        <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#buscarPorNombre" GridPane.columnIndex="1">
+                        <TextField fx:id="txtBuscar" styleClass="field" />
+                        <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#buscarPorNombre" prefHeight="50.0" prefWidth="60.0" styleClass="boton" GridPane.columnIndex="1">
                            <graphic>
                               <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

@@ -14,3 +14,44 @@
 .encabezado{
     -fx-backgroud-color: #98BD64;
 }
+
+.boton{
+    -fx-background-color: #98BD64;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-border-color: #595b59;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.boton:hover{
+    -fx-background-color: #7FA24F;
+
+}
+
+.boton:pressed{
+    -fx-background-color: #5C7A3A;
+}
+
+.field{
+    -fx-background-color: #E8F5E9;
+    -fx-border-color: #A5D6A7;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.table-view{
+    -fx-background-color: #aac7e9;
+    -fx-border-color: #8691e0;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.texto{
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #252424;
+}

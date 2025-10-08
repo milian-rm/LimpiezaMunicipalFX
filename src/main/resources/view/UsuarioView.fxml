@@ -57,9 +57,9 @@
                   <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <TextField fx:id="txtId" disable="true" GridPane.columnIndex="2" />
-                  <TextField fx:id="txtCorreo" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <TextField fx:id="txtContra" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <TextField fx:id="txtId" disable="true" styleClass="field" GridPane.columnIndex="2" />
+                  <TextField fx:id="txtCorreo" disable="true" styleClass="field" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtContra" disable="true" styleClass="field" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <GridPane GridPane.columnIndex="5" GridPane.rowIndex="2">
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -69,11 +69,11 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID:  " GridPane.columnIndex="1" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Correo: " GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña: " GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#btnAnteriorAction" text="&lt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#btnSiguienteAction" text="&gt;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevoUsuario" text="Agregar" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                  <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editarUsuario" text="Actualizar" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#cancelarEliminar" text="Eliminar" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                  <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#btnAnteriorAction" prefHeight="35.0" prefWidth="55.0" styleClass="boton" text="&lt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#btnSiguienteAction" prefHeight="35.0" prefWidth="55.0" styleClass="boton" text="&gt;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevoUsuario" prefHeight="40.0" prefWidth="95.0" styleClass="boton" text="Agregar" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editarUsuario" prefHeight="45.0" prefWidth="105.0" styleClass="boton" text="Actualizar" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#cancelarEliminar" prefHeight="45.0" prefWidth="105.0" styleClass="boton" text="Eliminar" GridPane.columnIndex="5" GridPane.rowIndex="4" />
                </children>
             </GridPane>
          </bottom>
@@ -117,7 +117,7 @@
                         <Image url="@../image/logo_municipalidad-Photoroom.png" />
                      </image>
                   </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Usuario" GridPane.columnIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="texto" text="Usuario" GridPane.columnIndex="3" />
                   <GridPane GridPane.columnIndex="2">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="327.0" minWidth="10.0" prefWidth="327.0" />
@@ -127,8 +127,8 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField fx:id="txtBuscar" promptText="Buscar por correo..." />
-                        <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#BuscarTabla" GridPane.columnIndex="1">
+                        <TextField fx:id="txtBuscar" promptText="Buscar por correo..." styleClass="field" />
+                        <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#BuscarTabla" prefHeight="50.0" prefWidth="60.0" styleClass="boton" GridPane.columnIndex="1">
                            <graphic>
                               <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
